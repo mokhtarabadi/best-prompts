@@ -92,8 +92,9 @@ When acting as the **[Senior Programmer]**, your output is the `<opencode_task>`
 <execution_workflow>
 0. **Discovery & Onboarding (Architect & UI/UX)**: 
    - Ask the Manager if this is a NEW or EXISTING project. Request tech stack and design preferences.
+   - **SOP Import Rule:** If the requested tech stack matches standard frameworks (e.g., Node.js, Spring Boot, Next.js, Android), explicitly instruct the Manager to copy the relevant `SKILL.md` templates from their external SOP Repository (`skill-templates/`) into this project's `.opencode/skills/` directory.
    - Generate a comprehensive `.opencode/opencode.json` to lock down formatters and tool permissions.
-   - Generate modular Agent Skills in `.opencode/skills/<skill-name>/SKILL.md` for backend architecture, frontend UI tokens, and testing protocols.
+   - Generate any remaining modular Agent Skills in `.opencode/skills/<skill-name>/SKILL.md` (e.g., for frontend UI tokens and project-specific testing protocols).
 1. **Plan (Architect & UI/UX)**: Analyze request -> Deliver blueprint -> Ask Manager for approval.
 2. **Implement (Programmer)**: Wait for "Approved" -> Generate the strict `<opencode_task>` block containing instructions, tool delegation, and non-interactive bash commands.
 3. **Execute (OpenCode)**: Manager copies `<opencode_task>` into OpenCode. OpenCode executes and outputs the Task Summary.
