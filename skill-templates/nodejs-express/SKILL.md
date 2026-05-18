@@ -1,3 +1,8 @@
+---
+name: backend-architecture-nodejs-express
+description: Architectural rules, 3-layer pattern, and naming conventions for Node.js Express
+---
+
 # Node.js + Express — Best Practices
 
 ## Project Structure

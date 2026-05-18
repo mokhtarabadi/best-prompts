@@ -1,3 +1,8 @@
+---
+name: mobile-architecture-android-java-xml
+description: MVC/MVP, ViewBinding, lifecycle management, and RxJava for Android Java
+---
+
 # Android (Java + XML) — Best Practices
 
 ## Project Structure

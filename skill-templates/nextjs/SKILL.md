@@ -1,3 +1,8 @@
+---
+name: frontend-architecture-nextjs
+description: App Router, Server/Client Components, Server Actions, and Tailwind tokens for Next.js
+---
+
 # Next.js — Best Practices
 
 ## Project Structure

@@ -1,6 +1,6 @@
 # Roadmap
 
-Planned additions to the stacks directory:
+Planned additions to the skill-templates directory:
 
 - [ ] Add Go (Fiber) best practices.
 - [ ] Add Rust (Axum) best practices.

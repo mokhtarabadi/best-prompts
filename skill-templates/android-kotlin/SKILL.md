@@ -1,3 +1,8 @@
+---
+name: mobile-architecture-android-kotlin
+description: Jetpack Compose, MVVM, Clean Architecture, Coroutines, and Hilt for Android Kotlin
+---
+
 # Android (Kotlin) — Best Practices
 
 ## Project Structure

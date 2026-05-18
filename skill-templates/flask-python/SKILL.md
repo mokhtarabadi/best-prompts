@@ -1,3 +1,8 @@
+---
+name: backend-architecture-flask-python
+description: Application Factory, Blueprints, SQLAlchemy, and config separation for Flask
+---
+
 # Flask (Python) — Best Practices
 
 ## Project Structure

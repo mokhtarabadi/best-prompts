@@ -1,3 +1,8 @@
+---
+name: backend-architecture-spring-boot
+description: DDD, hexagonal style, and naming conventions for Spring Boot
+---
+
 # Spring Boot — Best Practices
 
 ## Project Structure
