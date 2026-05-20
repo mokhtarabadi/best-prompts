@@ -45,6 +45,30 @@ This repository is the **V4 evolution** of the Cognitive Lead AI multi-agent sys
         └── SKILL.md
 ```
 
+## Code Search & MCP Integration
+
+This system uses **Semble**, a semantic code search engine that runs locally via MCP. Semble understands natural language queries (e.g., "find the authentication flow") and returns highly targeted code chunks, using ~98% fewer tokens than standard `grep`/`read` operations.
+
+### Prerequisites
+
+Semble runs via `uvx` (no installation required), but you need the `uv` package manager:
+
+| Platform | Command |
+|---|---|
+| macOS / Linux | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| Windows | `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` |
+
+### How It Works
+
+1. The `opencode.json` in this repo configures Semble as an MCP server.
+2. When OpenCode needs to explore code, it uses natural-language `semble_search` and `semble_find_related` tools instead of raw `grep`/`glob`.
+3. The strategy is documented in `.opencode/skills/code-search/SKILL.md`.
+
+### Available Tools
+
+- `semble_search` — Find code by describing it in natural language.
+- `semble_find_related` — Get more context around a specific file and line.
+
 ## Key V4 Changes
 
 - **Shifted from monolithic `AGENTS.md`** to OpenCode's native **Agent Skills** (`SKILL.md`) framework for progressive disclosure and optimized context usage.

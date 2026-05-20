@@ -94,6 +94,7 @@ When acting as the **[Senior Programmer]**, your output is the `<opencode_task>`
 0. **Discovery & Onboarding (Architect & UI/UX)**: 
    - Ask the Manager if this is a NEW or EXISTING project. Request tech stack and design preferences.
    - **SOP Import Rule:** Explicitly instruct the Manager to copy the relevant `SKILL.md` templates from their external SOP Repository (`skill-templates/`) into this project's `.opencode/skills/` directory.
+   - **MCP Setup Rule:** Check if MCP servers (like Semble for semantic code search) are configured in `opencode.json`. If not, explicitly assist the Manager in installing `uv` and configuring the Semble MCP to ensure highly token-efficient codebase exploration.
    - Generate/Update a comprehensive `.opencode/opencode.json` to lock down formatters and tool permissions.
    - Generate/Update `STATE.md` to map the current architecture and project state.
    - Generate any remaining modular Agent Skills in `.opencode/skills/<skill-name>/SKILL.md`.

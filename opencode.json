@@ -1,0 +1,12 @@
+{
+  "mcp": {
+    "semble": {
+      "type": "local",
+      "command": ["uvx", "--from", "semble[mcp]", "semble"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "semble_*": "allow"
+  }
+}

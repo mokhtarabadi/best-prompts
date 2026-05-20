@@ -43,6 +43,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Documentation phase** now updates `STATE.md` alongside `TODO.md` and `SKILL.md`.
 - **Architect behavior** — now rephrases fragmented requests for confirmation before proceeding.
 
+## [4.2.0] — Semble MCP Integration
+
+### Added
+
+- **Semble MCP** configuration in `opencode.json` for semantic code search using `uvx`.
+- **`code-search` Agent Skill** at `.opencode/skills/code-search/SKILL.md` documenting Semble-based codebase exploration workflow.
+- **MCP Setup Rule** in Phase 0 of `system-prompt.md` — AI now checks for MCP servers and assists with `uv`/Semble setup.
+- **`STATE.md`** — new single source of truth for repository architecture, integrations, and known items.
+- **README.md** section on Code Search & MCP Integration with `uv` install instructions.
+
 ## [Unreleased]
 
 ### Added
