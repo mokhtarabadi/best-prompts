@@ -26,6 +26,8 @@ This repository is the **V4 evolution** of the Cognitive Lead AI multi-agent sys
 ├── system-prompt.md                    # V4 Multi-Agent System Prompt
 ├── CHANGELOG.md                        # Version history
 ├── TODO.md                             # Roadmap for new stacks
+├── mcp-context-server/
+│   └── server.py                       # FastMCP server for .gitignore-aware file reading & tree
 ├── .opencode/
 │   └── skills/
 │       └── sop-maintenance/
@@ -47,70 +49,71 @@ This repository is the **V4 evolution** of the Cognitive Lead AI multi-agent sys
             └── SKILL.md
 ```
 
-## Code Search & MCP Integration
+## Custom Code Context MCP
 
-This system uses **Semble**, a semantic code search engine that runs locally via MCP. Semble understands natural language queries (e.g., "find the authentication flow") and returns highly targeted code chunks, using ~98% fewer tokens than standard `grep`/`read` operations.
+This system uses a local **FastMCP** Python server (`mcp-context-server/server.py`) that runs via `uv run` with zero-install dependency management. It provides deterministic, `.gitignore`-aware file reading and directory tree exploration, using far fewer tokens than raw `grep`/`glob` operations.
 
-### Prerequisites
+### Setup Instructions
 
-Semble requires `uv` and runs via a pre-installed tool (recommended) or `uvx`:
+This server can be installed locally per-project, or globally for all OpenCode sessions on your machine.
 
-| Platform | Command |
-|---|---|
-| macOS / Linux | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
-| Windows | `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` |
-
-### Setup
-
-#### 1. Install Semble globally (recommended)
-
-Pre-installing avoids download delays on every OpenCode startup:
-
-```bash
-# Basic install
-uv tool install "semble[mcp]"
-
-# If behind a SOCKS proxy, include httpx[socks] support:
-uv tool install "semble[mcp]" --reinstall --with "httpx[socks]"
-```
-
-#### 2. Configure `opencode.json`
-
+#### Option A: Project-Level Setup (New or Existing Projects)
+Best for keeping project dependencies isolated.
+1. Copy `mcp-context-server/server.py` into your project root.
+2. Ensure it is executable: `chmod +x mcp-context-server/server.py`.
+3. Add the following to your project's `./opencode.json`:
 ```json
 {
   "mcp": {
-    "semble": {
+    "custom_context": {
       "type": "local",
-      "command": ["semble"],
+      "command": ["uv", "run", "mcp-context-server/server.py"],
       "enabled": true
     }
   },
   "permission": {
-    "semble_*": "allow"
+    "custom_context_*": "allow",
+    "get_directory_tree": "allow",
+    "read_source_files": "allow"
   }
 }
 ```
 
-> **Note:** Use `["semble"]` (not `["uvx", "--from", "semble[mcp]", "semble"]`) after installing globally — it avoids ephemeral environment startup delays and inherits SOCKS support.
-
-#### 3. Model download (one-time)
-
-Semble automatically downloads `minishlab/potion-code-16M` (~65 MB) on first use. Verify it's cached:
-
-```bash
-ls ~/.cache/huggingface/hub/models--minishlab--potion-code-16M/
+#### Option B: Global Setup (System-wide)
+Best if you want this codebase exploration tool available in *every* terminal directory automatically.
+1. Create a global directory for the server: `mkdir -p ~/.config/opencode/mcp-context-server`
+2. Copy the `server.py` script into that directory.
+3. Make it executable: `chmod +x ~/.config/opencode/mcp-context-server/server.py`.
+4. Open your global config at `~/.config/opencode/opencode.json` and add the absolute path:
+```json
+{
+  "mcp": {
+    "custom_context": {
+      "type": "local",
+      "command": ["uv", "run", "/Users/<YOUR_USER>/.config/opencode/mcp-context-server/server.py"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "custom_context_*": "allow",
+    "get_directory_tree": "allow",
+    "read_source_files": "allow"
+  }
+}
 ```
+*(Note: Replace `/Users/<YOUR_USER>` with your actual home directory path).*
 
 ### How It Works
 
-1. The `opencode.json` in this repo configures Semble as an MCP server.
-2. When OpenCode needs to explore code, it uses natural-language `semble_search` and `semble_find_related` tools instead of raw `grep`/`glob`.
-3. The strategy is documented in `skill-templates/code-search/SKILL.md`.
+1. `opencode.json` configures the custom context server as a local MCP server.
+2. When OpenCode needs to explore code, it uses `get_directory_tree` and `read_source_files` tools.
+3. All file reads respect `.gitignore` rules and skip binary/large files automatically.
+4. The strategy is documented in `skill-templates/code-search/SKILL.md`.
 
 ### Available Tools
 
-- `semble_search` — Find code by describing it in natural language.
-- `semble_find_related` — Get more context around a specific file and line.
+- `get_directory_tree` — Generates an ASCII tree of the directory structure, respecting `.gitignore`.
+- `read_source_files` — Reads multiple source files or directories and returns their contents with line numbers, respecting `.gitignore`.
 
 ## Key V4 Changes
 

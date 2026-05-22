@@ -1,14 +1,14 @@
 ---
 name: code-search
-description: Rules for navigating the codebase and finding relevant code chunks using Semble.
+description: Rules for navigating the codebase and exploring files.
 ---
 
 # Code Search Strategy
 
-When exploring the codebase or looking for specific implementations, ALWAYS prefer the `semble` MCP tools over standard `grep`, `glob`, or `read` to save context tokens.
+When exploring the codebase, use the custom context MCP tools to prevent context bloat and respect `.gitignore` rules.
 
 ## Workflow
-1. Use the `semble_search` tool to find code by describing what it does in natural language (e.g., "authentication flow") or naming a specific symbol/function.
-2. Review the highly targeted code chunks returned by Semble.
-3. If a chunk looks promising but you need more context around it, use `semble_find_related` passing the `file_path` and `line` number.
-4. ONLY use the native `read` tool to read a full file if the Semble chunks are insufficient to perform the required edits.
+1. Start by calling the `get_directory_tree` tool on the root directory (`.`) or a specific subfolder to map out the structure of the project.
+2. Analyze the ASCII tree returned to identify which files are most relevant to your task.
+3. Call the `read_source_files` tool passing in a list of specific file paths (or specific directories) you identified in step 2. This will return the exact file contents with line numbers prefixed.
+4. Only load the files you absolutely need.

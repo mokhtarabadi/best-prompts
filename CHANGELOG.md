@@ -43,21 +43,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Documentation phase** now updates `STATE.md` alongside `TODO.md` and `SKILL.md`.
 - **Architect behavior** — now rephrases fragmented requests for confirmation before proceeding.
 
-## [4.2.0] — Semble MCP Integration
+## [4.2.0] — Custom Context MCP Integration
 
 ### Added
 
-- **Semble MCP** configuration in `opencode.json` for semantic code search using `uvx`.
-- **`code-search` Agent Skill** at `.opencode/skills/code-search/SKILL.md` documenting Semble-based codebase exploration workflow.
-- **MCP Setup Rule** in Phase 0 of `system-prompt.md` — AI now checks for MCP servers and assists with `uv`/Semble setup.
+- **Custom Context MCP** server (`mcp-context-server/server.py`) using FastMCP for `.gitignore`-aware file reading and directory tree exploration.
+- **`code-search` Agent Skill** at `.opencode/skills/code-search/SKILL.md` documenting the custom context codebase exploration workflow.
+- **MCP Setup Rule** in Phase 0 of `system-prompt.md` — AI now checks for MCP servers and assists with `mcp-context-server` setup.
 - **`STATE.md`** — new single source of truth for repository architecture, integrations, and known items.
-- **README.md** section on Code Search & MCP Integration with `uv` install instructions.
+- **README.md** section on Custom Code Context MCP with setup instructions.
 
 ## [Unreleased]
 
 ### Added
 
 - Added a 'Clarification Rule' to the Software Architect persona in system-prompt.md to ensure the AI gracefully handles fragmented, short, or unclear instructions by rephrasing and confirming with the Manager.
+- Updated Software Architect persona in `system-prompt.md` to emit intermediate exploration tasks using the custom context MCP when codebase context is missing, preventing hallucinated blueprints.
 - Placeholder for upcoming stack additions (see `TODO.md`).
 - Updated UI/UX Designer persona in `system-prompt.md` to mandate the creation and maintenance of a `DESIGN.md` file for frontend/mobile projects.
 - Added a concrete example of a perfect summary to the `<summary_phase>` in `system-prompt.md` to better guide OpenCode's final output.

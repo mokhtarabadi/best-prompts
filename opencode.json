@@ -1,13 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "semble": {
+    "custom_context": {
       "type": "local",
-      "command": ["semble"],
+      "command": ["uv", "run", "mcp-context-server/server.py"],
       "enabled": true
     }
   },
   "permission": {
-    "semble_*": "allow"
+    "custom_context_*": "allow",
+    "get_directory_tree": "allow",
+    "read_source_files": "allow"
   }
 }
