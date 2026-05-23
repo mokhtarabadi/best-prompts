@@ -9,6 +9,7 @@
 
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -154,19 +155,59 @@ def get_directory_tree(target_path: str = ".") -> str:
 
 @mcp.tool()
 def read_source_files(paths: list[str], max_size: int = 1048576, no_line_numbers: bool = False) -> str:
-    """Reads multiple source files or directories and returns their contents in markdown, respecting .gitignore. Returns line numbers by default."""
+    """Reads multiple source files/directories, compiles their contents into a Markdown file under context-reports/, and returns the report file path."""
+    # Safeguard: Append context-reports/ to .gitignore if not present
+    gitignore = Path(".gitignore")
+    if gitignore.is_file():
+        try:
+            with open(gitignore, "r+", encoding="utf-8") as f:
+                content = f.read()
+                if "context-reports/" not in content:
+                    f.write("\n# Custom Context MCP reports\ncontext-reports/\n")
+        except Exception as e:
+            print(f"Warning: Failed to update .gitignore: {e}", file=sys.stderr)
+
     ignore_filter = GitIgnoreFilter()
     files_to_process: dict[Path, Path] = {}
     for src in paths:
+        # Safeguard: Do not recursively scan our own reports directory
+        if "context-reports" in Path(src).parts:
+            continue
         for p in collect_files(src, ignore_filter):
+            if "context-reports" in p.parts:
+                continue
             files_to_process[p.resolve()] = p
+
     if not files_to_process:
         return "No files found or all files were ignored."
+
     output_lines = ["## Source Files\n"]
     include_line_numbers = not no_line_numbers
     for _, f in sorted(files_to_process.items(), key=lambda item: str(item[1]).lower()):
         output_lines.append(process_source_file(f, max_size, include_line_numbers))
-    return "\n".join(output_lines)
+
+    result_content = "\n".join(output_lines)
+
+    # Ensure output directory exists
+    report_dir = Path("context-reports")
+    report_dir.mkdir(exist_ok=True)
+
+    # Generate timestamped filename
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    report_file = report_dir / f"context_report_{timestamp}.md"
+
+    # Write to file
+    try:
+        with open(report_file, "w", encoding="utf-8") as f:
+            f.write(result_content)
+    except Exception as e:
+        return f"Error writing report file: {e}"
+
+    return (
+        f"✅ Success: Compiled context for {len(files_to_process)} files.\n"
+        f"📁 Generated Report: `{report_file}`\n\n"
+        f"Manager: You can now open `{report_file}` in your local editor to view the codebase context or copy/paste it directly for the AI."
+    )
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")

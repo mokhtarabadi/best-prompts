@@ -113,7 +113,7 @@ Best if you want this codebase exploration tool available in *every* terminal di
 ### Available Tools
 
 - `get_directory_tree` — Generates an ASCII tree of the directory structure, respecting `.gitignore`.
-- `read_source_files` — Reads multiple source files or directories and returns their contents with line numbers, respecting `.gitignore`.
+- `read_source_files` — Reads multiple source files or directories and saves their contents into a local Markdown report inside the `context-reports/` directory, returning the file path to prevent context bloat.
 
 ## Key V4 Changes
 

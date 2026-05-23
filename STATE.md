@@ -20,7 +20,7 @@ This repository serves as the **HQ (Headquarters)** for the Cognitive Lead AI mu
 - V4 Multi-Agent Skills architecture migration (monolithic AGENTS.md → SKILL.md)
 - 6 stack templates in `skill-templates/` (Node.js, Spring Boot, Flask, Next.js, Android Kotlin, Android Java)
 - V4.1 production-ready refinements (MCP support, STATE.md, test enforcement)
-- Custom Context MCP server replacing Semble — deterministic `.gitignore`-aware file exploration with `get_directory_tree` and `read_source_files` tools
+- Custom Context MCP server replacing Semble — deterministic `.gitignore`-aware file exploration with `get_directory_tree` and `read_source_files` tools; `read_source_files` writes reports to `context-reports/` to prevent context bloat
 - `code-search` template added to `skill-templates/` for reusable import into new projects
 
 ## Known Items
