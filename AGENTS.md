@@ -14,7 +14,7 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
 - **Don't** generate or write functional application code (Python, JS, Go, etc.) in this repository.
   -> **Do** write structured framework-specific SOPs and reusable Markdown templates only.
 - **Don't** edit `system-prompt.md` without updating the version identifier.
-  -> **Do** increment the version in the prompt, update `STATE.md`, and log a formal entry in `CHANGELOG.md`.
+  -> **Do** increment the version in the prompt, update the active task file in `tasks/`, and log a formal entry in `CHANGELOG.md`.
 - **Don't** read `context-reports/` markdown files yourself.
   -> **Do** generate them using the MCP server and hand the file path to the Manager.
 
@@ -22,6 +22,7 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
 
 When modifying this repository, you must keep these files synchronized:
 
-1. `STATE.md` (architectural state and completed features)
-2. `TODO.md` (roadmap backlog)
-3. `CHANGELOG.md` (Keep a Changelog format)
+1. Active task file in `tasks/` (single source of truth for current work items)
+2. `CHANGELOG.md` (Keep a Changelog format)
+3. `DESIGN.md` (UI/UX design system, if modified)
+4. Relevant `SKILL.md` files (if structural patterns were altered)

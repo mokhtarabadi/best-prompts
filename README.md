@@ -1,6 +1,6 @@
-# Cognitive Lead AI — V4 Multi-Agent System Prompt & Agent Skills
+# Cognitive Lead AI — V5 Decentralized Task Architecture
 
-This repository is the **V4 evolution** of the Cognitive Lead AI multi-agent system. It has been restructured to adopt the **Agent Skills** standard and Google's official Agentic Workflow constraints, maximizing OpenCode's native context management and reasoning capabilities.
+This repository is the **V5 evolution** of the Cognitive Lead AI multi-agent system. It has been restructured around decentralized task files, Agent Skills, and Google's official Agentic Workflow constraints, maximizing OpenCode's native context management and reasoning capabilities.
 
 ## Purpose
 
@@ -12,20 +12,56 @@ This repository is the **V4 evolution** of the Cognitive Lead AI multi-agent sys
 
 | File / Directory                            | When to Consult                                                                                                            |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `system-prompt.md`                          | At the start of every session; this is the V4 multi-agent prompt defining all 5 personas and the Agentic Reasoning matrix. |
+| `system-prompt.md`                          | At the start of every session; this is the V5 multi-agent prompt defining all 5 personas and the Agentic Reasoning matrix. |
 | `.opencode/skills/sop-maintenance/SKILL.md` | When an AI agent needs to modify this repository itself.                                                                   |
 | `skill-templates/*/SKILL.md`                | Before writing code in a specific stack (Node.js, Spring Boot, Flask, Next.js, Android Kotlin/Java).                       |
 | `CHANGELOG.md`                              | To review what has changed between versions.                                                                               |
-| `TODO.md`                                   | To see which stacks are planned for future coverage.                                                                       |
+| `tasks/`                                    | To see the active task files and current work items.                                                                       |
+
+## How to Operate: The Brain & The Hands
+
+This system relies on a strict separation of concerns:
+
+- **The Brain (Google AI Studio):** You paste the `system-prompt.md` here. It acts as the Orchestrator. It has _no_ direct access to your files or terminal. It thinks, plans, and generates XML task blocks.
+- **The Hands (OpenCode):** Runs locally on your machine. You paste the XML task blocks here. It executes file changes, runs bash commands, triggers Agent Skills, and generates task summaries to feed back to the Brain.
+
+### Scenario A: Phase 0 for a Brand New Project
+
+1. Initialize an empty repository on your machine and start OpenCode.
+2. In AI Studio, paste the `system-prompt.md` and say: _"This is a new project. Start Phase 0."_
+3. Tell the AI your desired tech stack (e.g., Next.js, Node.js).
+4. The AI will generate an implementation task instructing OpenCode to:
+   - Copy the relevant stack `SKILL.md` template from your global skills directory.
+   - Create `opencode.json` with the required schema.
+   - Set up the `tasks/` directory and use the `task-generator` skill to create your first `01-initial-setup.md` task.
+
+### Scenario B: Phase 0 for an Existing Project (Never used this workflow)
+
+1. Open your existing project in OpenCode.
+2. In AI Studio, paste the `system-prompt.md` and say: _"This is an existing project. Start Phase 0."_
+3. The AI will immediately output an `<opencode_discovery_task>`. Paste this into OpenCode.
+4. OpenCode will use its MCP tools to map the directory tree and read core files into a `context-reports/` markdown file.
+5. Copy the contents of that report and paste it back into AI Studio.
+6. The AI will analyze your existing architecture and design, then generate an implementation task to create `AGENTS.md` (<150 lines), `DESIGN.md` (if UI exists), `opencode.json`, and the `tasks/` directory, locking in your current conventions.
+
+### Scenario C: Migrating a V4 Project to V5
+
+If you have an older project using global `STATE.md` and `TODO.md` files:
+
+1. Open the project locally. Delete `STATE.md` and `TODO.md`.
+2. Create a `tasks/` directory.
+3. In AI Studio, paste the **new V5 `system-prompt.md`**.
+4. Tell the AI: _"Migrate this project from V4 to V5. Generate a task to update `AGENTS.md` and move existing roadmap items into `tasks/01-v5-migration.md`."_
+5. Ensure the `task-generator` and `audit-agents` skills are imported into `.opencode/skills/` (or installed globally).
 
 ## Repository Structure
 
 ```
 /
 ├── README.md                           # This file
-├── system-prompt.md                    # V4 Multi-Agent System Prompt
+├── system-prompt.md                    # V5 Multi-Agent System Prompt
 ├── CHANGELOG.md                        # Version history
-├── TODO.md                             # Roadmap for new stacks
+├── tasks/                              # Decentralized task files
 ├── mcp-context-server/
 │   └── server.py                       # FastMCP server for .gitignore-aware file reading & tree
 ├── .opencode/
@@ -155,13 +191,13 @@ To make the `code-search` skill (or any other reusable skill) available in _ever
    @explore find the main router using the code-search skill
    ```
 
-## Key V4 Changes
+## Key V5 Changes
 
-- **Shifted from monolithic `AGENTS.md`** to OpenCode's native **Agent Skills** (`SKILL.md`) framework for progressive disclosure and optimized context usage.
-- **Integrated Google's official Agentic Reasoning System Instruction** for superior logic, risk assessment, and abductive reasoning.
-- **Upgraded `<opencode_task>`** to leverage OpenCode's native tools (`lsp`, `@explore`, `websearch`) instead of relying solely on bash commands.
-- **Added `opencode.json` auto-configuration** to Phase 0 for enforcing formatters and tool permissions.
-- **Restructured the repository**: migrated `stacks/` to `skill-templates/` and converted the repo's own rules into `.opencode/skills/sop-maintenance/SKILL.md`.
+- **Decentralized task architecture** — global `STATE.md` and `TODO.md` replaced by isolated task files in `tasks/` directory.
+- **Brain/Hands separation codified** — `system-prompt.md` explicitly declares AI Studio as the text-only Orchestrator and OpenCode as the local execution agent.
+- **New Agent Skills** — `task-generator` for creating numbered task files and `audit-agents` for enforcing `AGENTS.md` workflows.
+- **Phase 0 UI/UX traversal** — Project Planner now instructs OpenCode to perform deep source code analysis for `DESIGN.md` generation.
+- **Runtime model updated** — Gemini 3.5 Flash renamed to Gemini throughout the system prompt.
 
 ## Contributing
 

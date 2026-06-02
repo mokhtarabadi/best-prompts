@@ -4,6 +4,40 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [5.1.0] — Prompt Optimization & Input Processing
+
+### Added
+
+- **`<user_input_processing>` block:** Integrated a robust pre-processing phase to clean up informal, raw text from the Manager. The AI is now strictly instructed to HALT and ask clarifying questions if the request is ambiguous, eliminating blind guessing.
+- **Agentic Workflow alignment:** Overhauled the `<agentic_reasoning>` block to perfectly match Google's official 9-point system instruction template (Logical dependencies, Risk assessment, Abductive reasoning, Outcome evaluation, Information availability, Precision & Grounding, Completeness, Persistence, Inhibit response).
+- **Strict Grounding Rules:** Added constraints to treat the provided context as the absolute limit of truth, preventing hallucination.
+
+### Changed
+
+- **Execution Workflow:** Inserted "Input Processing & Clarification" as Step 1 in the execution pipeline.
+
+## [5.0.0] — V5 Decentralized Task Architecture
+
+### Added
+
+- **`tasks/` directory** — decentralized, numbered task files replace global `STATE.md` and `TODO.md`. Each task file tracks its own TODOs, final status, technical changes, and architectural reasoning.
+- **`skill-templates/task-generator/SKILL.md`** — new skill for automatically generating structured task files based on Manager instructions, with halt-and-handover protocol.
+- **`skill-templates/audit-agents/SKILL.md`** — new skill for auditing `AGENTS.md` to enforce task update workflows, UI/UX checks, and legacy global state removal.
+- **Phase 0 UI/UX traversal rule** — Project Planner now instructs OpenCode to perform deep source code traversal resulting in a comprehensive `DESIGN.md`.
+
+### Changed
+
+- **Project Planner persona** in `system-prompt.md` — duty and behavior rewritten to manage decentralized task files in `tasks/` as the single source of truth, dropping `STATE.md` and `TODO.md` references.
+- **`AGENTS.md`** — documentation sync rules updated to reference `tasks/` active task file and `DESIGN.md`; removed `STATE.md` and `TODO.md` from sync requirements.
+- **`.opencode/skills/sop-maintenance/SKILL.md`** — added documentation sync rules for task files and `DESIGN.md`.
+- **`<opencode_implementation_task_template>`** — context phase now reads active task file instead of `STATE.md`; documentation phase updates active task file instead of `STATE.md`/`TODO.md`.
+- **Runtime model identifier** — `Gemini 3.5 Flash` renamed to `Gemini` throughout `system-prompt.md`.
+
+### Removed
+
+- **`STATE.md`** — replaced by decentralized task files in `tasks/`.
+- **`TODO.md`** — replaced by per-task local TODOs in task files.
+
 ## [4.0.0] — V4 Multi-Agent Skills Update
 
 ### Added
