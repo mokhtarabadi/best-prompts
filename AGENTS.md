@@ -14,7 +14,7 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
 - **Don't** generate or write functional application code (Python, JS, Go, etc.) in this repository.
   -> **Do** write structured framework-specific SOPs and reusable Markdown templates only.
 - **Don't** edit `system-prompt.md` without updating the version identifier.
-  -> **Do** increment the version in the prompt, update the active task file in `tasks/`, and log a formal entry in `CHANGELOG.md`.
+  -> **Do** increment the version inside `<system_version>` at the very top of `system-prompt.md`, update the active task file in `tasks/`, and log a formal entry in `CHANGELOG.md`.
 - **Don't** read `context-reports/` markdown files yourself.
   -> **Do** generate them using the MCP server and hand the file path to the Manager.
 
