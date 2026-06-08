@@ -57,10 +57,10 @@ The V5.3.0 upgrade introduces two new MCP tools on the custom context server:
 2. **`stage_and_inject_diff`** — Automates the end-of-task finalization sequence: stages all changes via `git add .`, extracts the factual `git diff --staged`, and injects it into the task file's `<!-- BEGIN_GIT_DIFF -->
 ```diff
 diff --git a/.opencode/skills/code-search/SKILL.md b/.opencode/skills/code-search/SKILL.md
-index 5fce73b..d4c8d6e 100644
+index 5fce73b..00dcdb9 100644
 --- a/.opencode/skills/code-search/SKILL.md
 +++ b/.opencode/skills/code-search/SKILL.md
-@@ -11,10 +11,10 @@ You are the Executor. Your job is to extract codebase context so the Manager can
+@@ -11,11 +11,11 @@ You are the Executor. Your job is to extract codebase context so the Manager can
  
  ## Discovery Workflow
  
@@ -70,10 +70,12 @@ index 5fce73b..d4c8d6e 100644
 +2. **Extract Signatures (Prevent Context Bloat):** Before reading full files, call the `custom_context_extract_signatures` MCP tool on the target files to understand their structural map (classes/functions) without loading massive file bodies.
  3. **Target Files:** Analyze the ASCII tree to identify the exact files relevant to the Manager's request.
 -4. **Compile Report:** Call the `read_source_files` MCP tool, passing the list of targeted file paths. This tool will safely read the files (respecting `.gitignore`) and compile them into a single Markdown file inside the `context-reports/` directory.
+-5. **Halt and Handover:** Once the `read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
 +4. **Compile Report:** Call the `custom_context_read_source_files` MCP tool, passing the list of targeted file paths. This tool will safely read the files (respecting `.gitignore`) and compile them into a single Markdown file inside the `context-reports/` directory.
- 5. **Halt and Handover:** Once the `read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
++5. **Halt and Handover:** Once the `custom_context_read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
  6. **Output Message:** Output the following exact message to the Manager:
     > "✅ Discovery complete. I have compiled the context report here: `[INSERT_FILE_PATH]`.
+    > **Manager:** Please upload this file to AI Studio for the Orchestrator's review."
 diff --git a/AGENTS.md b/AGENTS.md
 index d037887..d5181cc 100644
 --- a/AGENTS.md
@@ -99,10 +101,10 @@ index 0ca71aa..999ca30 100644
  
  ## Resolution Protocol
 diff --git a/skill-templates/code-search/SKILL.md b/skill-templates/code-search/SKILL.md
-index 5fce73b..d4c8d6e 100644
+index 5fce73b..00dcdb9 100644
 --- a/skill-templates/code-search/SKILL.md
 +++ b/skill-templates/code-search/SKILL.md
-@@ -11,10 +11,10 @@ You are the Executor. Your job is to extract codebase context so the Manager can
+@@ -11,11 +11,11 @@ You are the Executor. Your job is to extract codebase context so the Manager can
  
  ## Discovery Workflow
  
@@ -112,10 +114,12 @@ index 5fce73b..d4c8d6e 100644
 +2. **Extract Signatures (Prevent Context Bloat):** Before reading full files, call the `custom_context_extract_signatures` MCP tool on the target files to understand their structural map (classes/functions) without loading massive file bodies.
  3. **Target Files:** Analyze the ASCII tree to identify the exact files relevant to the Manager's request.
 -4. **Compile Report:** Call the `read_source_files` MCP tool, passing the list of targeted file paths. This tool will safely read the files (respecting `.gitignore`) and compile them into a single Markdown file inside the `context-reports/` directory.
+-5. **Halt and Handover:** Once the `read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
 +4. **Compile Report:** Call the `custom_context_read_source_files` MCP tool, passing the list of targeted file paths. This tool will safely read the files (respecting `.gitignore`) and compile them into a single Markdown file inside the `context-reports/` directory.
- 5. **Halt and Handover:** Once the `read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
++5. **Halt and Handover:** Once the `custom_context_read_source_files` tool returns the generated file path, **STOP**. Do NOT use your `read` tool to open the report.
  6. **Output Message:** Output the following exact message to the Manager:
     > "✅ Discovery complete. I have compiled the context report here: `[INSERT_FILE_PATH]`.
+    > **Manager:** Please upload this file to AI Studio for the Orchestrator's review."
 diff --git a/system-prompt.md b/system-prompt.md
 index b3395ba..5133680 100644
 --- a/system-prompt.md
