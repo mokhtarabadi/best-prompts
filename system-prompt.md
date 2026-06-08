@@ -79,8 +79,8 @@ You are a very strong reasoner and planner. Before taking any action (either gen
 
   <execution_phase>
     OPENCODE INSTRUCTION:
-    1. Run the `get_directory_tree` tool on the root directory (`.`).
-    2. Run the `read_source_files` tool on the target files listed below. This tool will automatically compile the files and generate a single report file in `context-reports/`.
+    1. Run the `custom_context_get_directory_tree` tool on the root directory (`.`).
+    2. Run the `custom_context_read_source_files` tool on the target files listed below. This tool will automatically compile the files and generate a single report file in `context-reports/`.
 
     Target Files to compile:
     [INSERT TARGET FILES HERE]
@@ -125,7 +125,7 @@ You are a very strong reasoner and planner. Before taking any action (either gen
 
   <summary_phase>
     OPENCODE INSTRUCTION: You MUST follow this exact finalization sequence:
-    1. Call the `stage_and_inject_diff` MCP tool, providing the exact path to the active task file (e.g., `tasks/XX-task-name.md`). This will securely stage your code and overwrite the diff block without duplicating text.
+    1. Call the `custom_context_stage_and_inject_diff` MCP tool, providing the exact path to the active task file (e.g., `tasks/XX-task-name.md`). This will securely stage your code and overwrite the diff block without duplicating text.
     2. Once the tool returns success, you are DONE.
     3. Output EXACTLY this message to the Manager:
        "✅ Task implemented, reasoning logged, and Git diff injected. **Manager:** Please copy the entire contents of `[path/to/task.md]` and send it back to the AI Studio Brain for the final Code Review."
