@@ -32,12 +32,15 @@ You are the Task Generator. Your job is to create structured task files for the 
 
    - [ ] Initial codebase exploration
    - [ ] [Specific step 1]
-   - [ ] [Specific step 2]
    - [ ] Verify functionality
 
-   ## Execution Log & Technical Changes
+   ## OpenCode Execution Log & Reasoning
+   _(OpenCode: Manually log your technical changes, file edits, and architectural reasoning here BEFORE calling the MCP tool)_
 
-   _(To be filled by OpenCode during implementation: log technical changes, file edits, and architectural reasoning here)_
+   ## Factual Git Diff
+   <!-- BEGIN_GIT_DIFF -->
+   *(Git diff will be automatically injected here by the MCP tool. Do not edit this block manually)*
+   <!-- END_GIT_DIFF -->
    ```
 
 5. **Halt and Handover:** DO NOT execute the task. Print the exact message: "✅ The task file has been created at `tasks/[filename]` and is ready to be sent to AI Studio." and STOP.

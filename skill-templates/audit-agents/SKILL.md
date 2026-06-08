@@ -12,9 +12,10 @@ description: Enforces decentralized task management, UI/UX design strictness, an
 
 ## Target Audit Criteria
 The `AGENTS.md` file MUST explicitly contain the following operational constraints, ideally within a `Task Management & OpenCode Rules` section:
-- **Decentralized Task Management**: Agents MUST strictly use decentralized, individual task files in the `tasks/` directory (e.g., `tasks/02-feature-name.md`) as their single source of truth.
-- **No Monolithic State**: Agents are strictly forbidden from creating, updating, or reading monolithic tracking files at the project root (e.g., `TODO.md`, `STATE.md`).
-- **Lifecycle Documentation**: Agents MUST read the active task file before modifying code. Upon completion, they MUST update the active task file and `CHANGELOG.md` to document final status, technical changes, and architectural reasoning.
+- **Core File Locations**: MUST explicitly list paths for `AGENTS.md`, `DESIGN.md`, `tasks/`, and `.opencode/skills/`.
+- **Decentralized Task Management**: Agents MUST strictly use decentralized, individual task files in the `tasks/` directory as their single source of truth.
+- **No Monolithic State**: Agents are strictly forbidden from creating `TODO.md` or `STATE.md`.
+- **Mandatory End-Of-Task Sequence**: MUST explicitly mandate a 3-step completion process: 1) Write manual reasoning in the task file. 2) Call the `stage_and_inject_diff` MCP tool. 3) Notify the Manager.
 - **UI/UX Enforcement**: Any UI/UX changes MUST enforce the guidelines defined in the project's `DESIGN.md`.
 
 ## Resolution Protocol

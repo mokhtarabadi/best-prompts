@@ -8,6 +8,8 @@
 # ///
 
 import os
+import re
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -208,6 +210,71 @@ def read_source_files(paths: list[str], max_size: int = 1048576, no_line_numbers
         f"📁 Generated Report: `{report_file}`\n\n"
         f"Manager: You can now open `{report_file}` in your local editor to view the codebase context or copy/paste it directly for the AI."
     )
+
+@mcp.tool()
+def extract_signatures(file_path: str) -> str:
+    """Extracts structural signatures (classes, functions, methods) from source files using regex to prevent context bloat."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Match class, function, def, interface exports
+        pattern = re.compile(r'^(?:export\s+)?(?:default\s+)?(?:class|func(?:tion)?|def|interface|type)\s+\w+.*$', re.MULTILINE)
+        matches = pattern.findall(content)
+        
+        # Match const/let arrow functions
+        arrow_pattern = re.compile(r'^(?:export\s+)?(?:const|let)\s+\w+\s*=\s*(?:async\s*)?(?:\([^)]*\)|[^=]*)\s*=>.*$', re.MULTILINE)
+        arrow_matches = arrow_pattern.findall(content)
+        
+        all_matches = matches + arrow_matches
+        if not all_matches:
+            return f"No standard structural signatures found in {file_path}."
+            
+        return f"### Signatures in {file_path}\n" + "\n".join(all_matches)
+    except Exception as e:
+        return f"Error extracting signatures from {file_path}: {str(e)}"
+
+@mcp.tool()
+def stage_and_inject_diff(task_file_path: str) -> str:
+    """Stages current changes via Git and intelligently injects the diff into the task file's Git Diff block."""
+    try:
+        # 1. Stage all changes
+        subprocess.run(["git", "add", "."], check=True, capture_output=True)
+        
+        # 2. Extract the diff (EXCLUDING the task file itself to prevent recursive diff bloat)
+        # Using git pathspec magic ':!path' with a RELATIVE path to ignore the task file
+        rel_path = os.path.relpath(task_file_path)
+        diff_cmd = ["git", "diff", "--staged", "--", ".", f":!{rel_path}"]
+        diff_process = subprocess.run(diff_cmd, capture_output=True, text=True)
+        diff_text = diff_process.stdout.strip()
+        
+        if not diff_text:
+            diff_text = "No code changes detected or staged."
+            
+        diff_block = f"\n```diff\n{diff_text}\n```\n"
+
+        # 3. Read the task file
+        with open(task_file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # 4. Smart Replacement using Regex (greedy match from first BEGIN to last END)
+        # Using greedy .* to consume everything between the first BEGIN and the LAST END marker,
+        # preventing corruption when injected diff content itself contains 'END_GIT_DIFF'
+        pattern = re.compile(r'<!-- BEGIN_GIT_DIFF -->.*<!-- END_GIT_DIFF -->', re.DOTALL)
+        
+        if not pattern.search(content):
+            return f"Error: Could not find the <!-- BEGIN_GIT_DIFF --> markers in {task_file_path}. Did you alter the template?"
+
+        new_content = pattern.sub(lambda m: f'<!-- BEGIN_GIT_DIFF -->{diff_block}<!-- END_GIT_DIFF -->', content)
+
+        # 5. Write back to the task file
+        with open(task_file_path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+
+        return f"✅ Success: Changes staged and factual diff intelligently injected into {task_file_path}."
+
+    except Exception as e:
+        return f"❌ Error staging or updating task file: {str(e)}"
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
