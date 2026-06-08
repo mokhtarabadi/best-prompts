@@ -120,11 +120,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **`documentation_phase`** in `system-prompt.md` — streamlined to manual logging in task file under `OpenCode Execution Log & Reasoning`.
 - **Code Reviewer persona** — now reviews based strictly on the "Factual Git Diff" block inside the task file, with iteration instructions for rejections.
 
-## [Unreleased]
+## [5.5.0] — 2026-06-08
 
 ### Added
 
-- Placeholder for upcoming changes.
+- **`user-prompts/` directory** — new folder structure for storing reusable copy-paste prompt templates for the Manager.
+- **`user-prompts/session-compactor.md`** — first reusable user prompt template for executing semantic context compaction and cold-start session restoration.
+- **Task 08** — local task file tracking the user-prompts directory and compactor implementation.
 
 ## [5.4.0] — 2026-06-08
 
