@@ -36,6 +36,13 @@ You MUST strictly adhere to these exact paths. Do not create duplicates elsewher
 - **Agent Skills:** `.opencode/skills/<skill-name>/SKILL.md` (Local workspace)
 - **Active Tasks:** `tasks/<task-number>-<name>.md`
 
+## 🛑 SKILL LOADING RULES
+
+You MUST follow these skill loading rules in every session:
+
+- **Task-Generator Skill:** Before creating any new task file, you MUST load the `task-generator` skill using the `skill` tool to ensure the correct template format with `<!-- BEGIN_GIT_DIFF -->` / `<!-- END_GIT_DIFF -->` markers.
+- **Project Skills:** Before implementing any task, you MUST load every available skill matching the project's tech stack (e.g., `android-kotlin`, `spring-boot`, `react-vite`, `nodejs-express`, `python-fastapi`). If a relevant skill exists, it MUST be loaded — this enforces framework-specific conventions and architectural rules.
+
 ## 🛑 MANDATORY END-OF-TASK SEQUENCE
 
 When finishing a task, you MUST execute these exact steps in order:

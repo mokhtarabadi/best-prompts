@@ -126,6 +126,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`stage_and_inject_diff` MCP tool** — optimized the staged git diff command to globally exclude the entire `tasks/` directory (`:!tasks/`) instead of just the single active task file, completely eliminating task history clutter from factual codebase reviews.
 
+## [5.7.0] — 2026-06-16
+
+### Added
+
+- **Skill Loading Rules section** in `AGENTS.md` — two new mandatory rules: 1) Load `task-generator` skill before creating new task files. 2) Scan and load relevant project tech-stack skills before task implementation.
+- **Two new audit criteria** in `audit-agents/SKILL.md` — audits now verify that `AGENTS.md` contains both Task-Generator Skill Loading and Project Skill Loading rules.
+- **`task-generator` mention** in both discovery and implementation task template `SKILL LOADING` blocks in `system-prompt.md` — OpenCode now loads the task-generator skill when task creation is involved.
+- **Phase 0 Generation Mode** in `audit-agents/SKILL.md` — skill now has a full AGENTS.md template and workflow for generating the file from scratch on new projects.
+
+### Changed
+
+- **`system-prompt.md`** — `<constraints>` Mandatory Project Skill Loading clarified to cover both tech-stack skills (e.g., `android-kotlin`, `spring-boot`) and workflow skills (e.g., `task-generator`). All `SKILL LOADING` blocks now reference `task-generator` alongside tech-stack examples. Phase 0 workflow and Project Planner persona updated to instruct OpenCode to load the `audit-agents` skill for AGENTS.md generation.
+- **Simplified skill loading instructions** in `AGENTS.md`, `system-prompt.md`, and `audit-agents/SKILL.md` — removed redundant "scan `.opencode/skills/`..." path instructions since OpenCode auto-discovers skills natively. Now just says "load every available skill matching..."
+- `<system_version>` bumped from 5.6.0 to 5.7.0.
+
 ## [5.4.1] — 2026-06-13
 
 ### Changed
