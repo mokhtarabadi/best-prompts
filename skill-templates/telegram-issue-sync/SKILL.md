@@ -57,17 +57,19 @@ Stored at project root to track local configuration and message states:
    - Run the `question` tool to ask for: `project_name`, `chat_id`, `target_hashtags`, optional `topic_id`, optional `account`.
    - Create `telegram-sync.json` with the collected config. Set `last_processed_message_id` to `0`, initialize `processed_ids` and `sync_registry`.
 3. If missing and NOT explicitly requested: abort silently.
-4. If config exists, extract `config.chat_id`, `config.topic_id`, and `config.target_hashtags`.
+4. If config exists, extract `config.chat_id`, `config.topic_id`, `config.account`, and `config.target_hashtags`.
 
 ### Phase 2: Candidate Fetch & Deep Intent Crawling
 
-1. **Fetch History:** Call `telegram_get_history`. Filter by `reply_to == config.topic_id` if forum routing is used.
+All Telegram calls in this phase pass `account` from config if set.
+
+1. **Fetch History:** Call `telegram_get_history(chat_id=chat_id, limit=200, account=account)`. If more messages are needed, paginate with higher limits. Filter by `reply_to == config.topic_id` if forum routing is used.
 2. **Identify Actionable Items:** Find messages where `id > last_processed_message_id` containing any `target_hashtags`.
 3. **Deep Intent & Reply Crawling (CRITICAL):**
    - For each tagged message, check its `reply_to_message_id`.
-   - If the Manager replied to an older message, you MUST fetch that parent message using `telegram_get_message_context`.
+   - If the Manager replied to an older message, you MUST fetch that parent message using `telegram_get_message_context(chat_id=chat_id, message_id=reply_to_message_id, context_size=2, account=account)`. This returns the parent with surrounding context.
    - Merge the parent message's context (the "what") with the Manager's tagged message (the "intent/instruction").
-   - Also fetch neighboring messages (+/- 5 messages) to capture unstructured discussion around the decision.
+   - Also fetch neighboring messages (+/- 5 messages) via `telegram_get_message_context` to capture unstructured discussion around the decision.
 4. **Translation & Blueprinting:**
    - Translate Persian text to English.
    - Synthesize the exact intent of the Manager based on the reply chain.
@@ -101,6 +103,5 @@ When a task implementation is completed and the Git diff was injected:
 
 1. Read `telegram-sync.json` -> `sync_registry`.
 2. If the completed `task_file` matches an entry, extract the `msg_id`.
-3. Call `telegram_reply_to_message` using the `msg_id` to reply directly to the Manager's original Telegram message.
-   - *Message:* "✅ The bug/feature reported in this thread has been resolved and committed under Local Task XX."
+3. Call `telegram_reply_to_message(chat_id=chat_id, message_id=msg_id, text="✅ The bug/feature reported in this thread has been resolved and committed under Local Task XX.", account=account)` to reply directly in the correct thread.
 

@@ -28,17 +28,22 @@ Inside, files are numbered sequentially by ascending message ID:
 
 ### Phase 1: Input Parsing & Boundary Resolution
 
+All Telegram calls in this skill pass `account` if the user provides one.
+
 1. Determine `chat_id` and the `from_id` / `to_id` bounds.
-2. If the user provides a link (e.g., `t.me/c/CHAT_ID/MSG_ID`), parse the `msg_id`. (Prepend `-100` to `CHAT_ID` if it's a numeric supergroup).
-3. If the user provides a text snippet as a boundary, use `telegram_search_messages` to locate the exact `msg_id`.
+2. If the user provides a link:
+   - `t.me/c/CHAT_ID/MSG_ID` — parse the numeric `CHAT_ID` and `MSG_ID`. Prepend `-100` to `CHAT_ID` to form the full chat_id.
+   - `t.me/username/MSG_ID` — call `telegram_resolve_username(username=username, account=account)` to get the `chat_id`, then extract `MSG_ID`.
+3. If the user provides a text snippet as a boundary, use `telegram_search_messages(chat_id=chat_id, query=snippet, limit=5, account=account)` to locate the exact `msg_id`.
 4. Establish the final `[from_id, to_id]` range. If the user requested a context size instead of an end bound, calculate `to_id = from_id + context_size`.
 
 ### Phase 2: Contextual Message Fetching
 
-1. Call `telegram_get_history` (or pagination) to retrieve all messages within the `[from_id, to_id]` range.
-2. Sort the messages strictly by `id` in ascending order.
-3. If the list is empty, abort with a clear message. Do not create an empty ZIP.
-4. **Range guard:** If the range spans more than 200 messages, warn the Manager via the `question` tool and ask for confirmation before proceeding. This skill is designed for focused extraction, not bulk archiving.
+1. Call `telegram_get_history(chat_id=chat_id, limit=200, account=account)` to retrieve recent messages. If the range extends beyond the returned batch, paginate by calling again with a larger limit or using the last returned message ID.
+2. Filter the returned list to keep only messages where `id >= from_id` and `id <= to_id`.
+3. Sort the filtered messages strictly by `id` in ascending order.
+4. If the filtered list is empty, abort with a clear message. Do not create an empty ZIP.
+5. **Range guard:** If the range spans more than 200 messages, warn the Manager via the `question` tool and ask for confirmation before proceeding. This skill is designed for focused extraction, not bulk archiving.
 
 ### Phase 3: Intelligent File Extraction & Reply Mapping
 
@@ -66,9 +71,9 @@ Inside, files are numbered sequentially by ascending message ID:
 
    **Step B: Media Extraction**
    - If the message contains media (photo, voice note, video, document):
-      - Call `telegram_get_media_info` to get the extension.
-      - Call `telegram_download_media` saving to `<export_dir>/{n}.{ext}`.
-      - Note: Voice notes will naturally save as `{n}.ogg`.
+      - Call `telegram_get_media_info(chat_id=chat_id, message_id=message.id, account=account)` to determine the file extension.
+      - Call `telegram_download_media(chat_id=chat_id, message_id=message.id, file_path="<export_dir>/{n}.{ext}", account=account)` to save the file.
+      - Note: Voice notes download as `.ogg` automatically.
 
    **Step C:** Increment `n = n + 1`.
 
