@@ -126,6 +126,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`stage_and_inject_diff` MCP tool** — optimized the staged git diff command to globally exclude the entire `tasks/` directory (`:!tasks/`) instead of just the single active task file, completely eliminating task history clutter from factual codebase reviews.
 
+## [5.7.1] — 2026-06-17
+
+### Changed
+
+- **`system-prompt.md`** — `<system_version>` bumped to 5.7.1. `documentation_phase` text changed from discretionary `"Update CHANGELOG.md if necessary"` to mandatory `"You MUST update CHANGELOG.md with a new entry following the project's versioning rules."`
+- **`AGENTS.md`** — Mandatory End-Of-Task sequence expanded from 3 steps to 4 steps. New Step 1: "Update Changelog" — agents must now insert a formal CHANGELOG.md entry before writing their summary.
+- **`skill-templates/audit-agents/SKILL.md`** — AGENTS.md Template and Target Audit Criteria updated to reflect the new 4-step mandatory completion process.
+
 ## [5.8.0] — 2026-06-17
 
 ### Added

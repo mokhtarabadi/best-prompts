@@ -26,6 +26,7 @@ Create a new Agent Skill that exports a range of Telegram messages (text, images
 The user requested a Telegram message extraction tool. Rather than extending the existing `telegram-issue-sync` skill (which focuses on hashtag-based issue tracking and GitHub sync), I created a new dedicated `telegram-message-export` skill with a clean, single-purpose workflow.
 
 Key design decisions:
+
 - **Three input methods** — message ID range, message link parsing, and text search cover all realistic use cases
 - **Numbered output files** — sequential `1.txt`, `2.jpeg`, etc. are intuitive and easy to reference
 - **Sidecar text files** — when a message has both media and text, both share the same number (e.g., `5.txt` describes `5.jpeg`)

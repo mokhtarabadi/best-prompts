@@ -7,7 +7,7 @@ description: Optional, pure agentic sync of Telegram supergroup topics into loca
 
 ## Purpose
 
-Syncs actionable Telegram supergroup messages into GitHub Issues and local `tasks/` files. It features deep "Intent Parsing" — if a Manager tags a message with `#bug` while *replying* to an older message, this skill autonomously fetches the parent message to construct a complete, contextual narrative.
+Syncs actionable Telegram supergroup messages into GitHub Issues and local `tasks/` files. It features deep "Intent Parsing" — if a Manager tags a message with `#bug` while _replying_ to an older message, this skill autonomously fetches the parent message to construct a complete, contextual narrative.
 
 ## Telegram MCP Tool Behavior
 
@@ -79,16 +79,20 @@ All Telegram calls in this phase pass `account` from config if set.
 1. Present the parsed candidates to the Manager for approval using the `question` tool.
 2. For each approved candidate:
    - **Local Task Generation:** Use the `task-generator` skill to create `tasks/XX-title.md`. Inject the deep intent context:
+
      ```markdown
      **Msg ID:** {NNN}
-     
+
      ## Telegram Discussion Context
+
      **Context/Parent Message:** {parent_text_translated}
      **Manager's Instruction:** {manager_tagged_text_translated}
-     
+
      ## Codebase Correlation
+
      {Autonomous analysis of which files likely need changes based on the context}
      ```
+
    - **GitHub Issue:** Create the issue using the `gh issue create` CLI tool.
    - **State Update:** Update `telegram-sync.json`. Append to `processed_ids`, update `last_processed_message_id`. Add the entry to `sync_registry` using the exact schema:
      `"{msg_id}": { "task_file": "tasks/...", "gh_issue": 123, "type": "BUG" }`
@@ -104,4 +108,3 @@ When a task implementation is completed and the Git diff was injected:
 1. Read `telegram-sync.json` -> `sync_registry`.
 2. If the completed `task_file` matches an entry, extract the `msg_id`.
 3. Call `telegram_reply_to_message(chat_id=chat_id, message_id=msg_id, text="✅ The bug/feature reported in this thread has been resolved and committed under Local Task XX.", account=account)` to reply directly in the correct thread.
-

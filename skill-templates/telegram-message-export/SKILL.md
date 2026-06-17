@@ -12,6 +12,7 @@ Extracts a highly contextual range of Telegram messages. It automatically resolv
 ## Input Methods
 
 Accept the boundaries of the export dynamically based on the Manager's prompt:
+
 1. **Start & End Bounds**: Can be explicit Message IDs, Message Links (`t.me/c/CHAT_ID/MSG_ID`), or exact text snippets (which you will search for to resolve the ID).
 2. **Start Point + Context Window**: A starting link/ID and a request like "and the next 50 messages".
 
@@ -19,6 +20,7 @@ Accept the boundaries of the export dynamically based on the Manager's prompt:
 
 A ZIP file at the path: `<workspace>/telegram-exports/telegram-export-{unix_timestamp}.zip`
 Inside, files are numbered sequentially by ascending message ID:
+
 - `1.txt` (Contains sender, date, reply metadata, and text content)
 - `1.jpg` (If the message included an image)
 - `2.txt`
@@ -52,28 +54,30 @@ All Telegram calls in this skill pass `account` if the user provides one.
 3. For each message in the sorted list:
 
    **Step A: Text & Metadata Sidecar (`{n}.txt`)**
-   - You MUST create a `{n}.txt` file for *every* message, even if it's just media or an unsupported type.
+   - You MUST create a `{n}.txt` file for _every_ message, even if it's just media or an unsupported type.
    - Extract `reply_to_message_id`. If it exists, explicitly document it so the LLM can reconstruct the thread later.
    - Format of `{n}.txt`:
+
      ```text
      Message ID: {message.id}
      From: {sender_name_or_id}
      Date: {date}
      Reply To Message ID: {reply_to_message_id | 'None'}
      Message Type: {text | photo | voice | video | document | sticker | poll | service | unsupported}
-     
+
      [Content]
      {message_text_or_caption | '[No text content]'}
      ```
+
    - For polls, write the poll question and options as the content.
    - For service messages (member joined, title changed, etc.), write the service action description.
    - If the message has no extractable content, write `[No extractable content]`.
 
    **Step B: Media Extraction**
    - If the message contains media (photo, voice note, video, document):
-      - Call `telegram_get_media_info(chat_id=chat_id, message_id=message.id, account=account)` to determine the file extension.
-      - Call `telegram_download_media(chat_id=chat_id, message_id=message.id, file_path="<export_dir>/{n}.{ext}", account=account)` to save the file.
-      - Note: Voice notes download as `.ogg` automatically.
+     - Call `telegram_get_media_info(chat_id=chat_id, message_id=message.id, account=account)` to determine the file extension.
+     - Call `telegram_download_media(chat_id=chat_id, message_id=message.id, file_path="<export_dir>/{n}.{ext}", account=account)` to save the file.
+     - Note: Voice notes download as `.ogg` automatically.
 
    **Step C:** Increment `n = n + 1`.
 
