@@ -27,6 +27,10 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
   -> **Do** increment the version inside `<system_version>` at the very top of `system-prompt.md`, update the active task file in `tasks/`, and log a formal entry in `CHANGELOG.md`.
 - **Don't** read `context-reports/` markdown files yourself.
   -> **Do** generate them using the MCP server and hand the file path to the Manager.
+- **Don't** create monolithic state files like `TODO.md` or `STATE.md`.
+  -> **Do** use the decentralized `tasks/` directory with individual task files as the single source of truth.
+- **Don't** make UI/UX changes without consulting `DESIGN.md`.
+  -> **Do** enforce the color palette, typography, spacing, and component styling defined in `DESIGN.md`.
 
 ## Documentation Sync Rules
 
