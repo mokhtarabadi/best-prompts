@@ -69,15 +69,19 @@ If you have an older project using global `STATE.md` and `TODO.md` files:
 │       └── sop-maintenance/
 │           └── SKILL.md                # Native OpenCode skill for repo rules
     └── skill-templates/                    # Reusable stack blueprints (Agent Skills)
+        ├── go-hexagonal-grpc/
+        │   └── SKILL.md
+        ├── prompt-refactor/
+        │   └── SKILL.md
+        ├── android-kotlin/
+        │   └── SKILL.md
+        ├── nextjs/
+        │   └── SKILL.md
         ├── nodejs-express/
         │   └── SKILL.md
         ├── spring-boot/
         │   └── SKILL.md
         ├── flask-python/
-        │   └── SKILL.md
-        ├── nextjs/
-        │   └── SKILL.md
-        ├── android-kotlin/
         │   └── SKILL.md
         ├── android-java-xml/
         │   └── SKILL.md
@@ -209,3 +213,5 @@ See `.opencode/skills/sop-maintenance/SKILL.md` for the rules that AI agents mus
 2. **Epic and Milestone Tracking:** Create an `epics/` directory and update the `task-generator` skill to link individual tasks to parent epics for better macro-level project tracking.
 3. **Dedicated `testing-strategy` Skill:** Create a template enforcing Test-Driven Development (TDD) or strict coverage thresholds, ensuring OpenCode writes tests before or alongside implementation code.
 4. **Database Migration Management:** Create a `database-migration` skill to strictly forbid direct schema alterations, forcing the use of standard migration tools (Prisma, Alembic, Flyway) for safe, repeatable deployments.
+5. **Automated Prompt Refactoring Pipeline:** Integrate the new `prompt-refactor` skill into an auto-refine pre-hook so that Manager inputs are automatically expanded into elite system prompts before code execution begins.
+6. **Hexagonal Architecture Expansion:** Port the strict Ports & Adapters blueprint from Go to our Python (FastAPI) and TypeScript (Node.js) templates to unify "Max Power" backend design patterns across all supported stacks.
