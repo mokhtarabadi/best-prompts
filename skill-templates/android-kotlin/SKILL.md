@@ -1,22 +1,22 @@
 ---
 name: mobile-architecture-android-kotlin
-description: Jetpack Compose, MVVM, Clean Architecture, Coroutines, and Hilt for Android Kotlin
+description: Jetpack Compose, MVI (UDF), Clean Architecture, Offline-First Room, and Hilt for Android Kotlin
 ---
 
-# Android (Kotlin) — Best Practices & AI-Driven Scaffolding
+# Android (Kotlin) — "Max Power" AI-Driven Architectural Scaffolding
 
 ## Modern Project Initiation Guide
 
-When launching an Android Kotlin application from scratch, initialize using the following strict architectural directives:
+When launching an Android Kotlin application (especially high-performance or offline-first apps like Caller ID) from scratch, initialize using the following strict architectural directives:
 
 1. **100% Jetpack Compose UI:** Never generate XML layout files. Use the Material 3 design system exclusively.
 2. **Single-Activity Architecture:** Use a single `MainActivity.kt` with a Compose `NavHost` configured for standard type-safe navigation routes.
-3. **MVVM + Clean Architecture:** Group packages strictly by feature:
+3. **MVI + UDF + Clean Architecture:** Group packages strictly by feature. Enforce Unidirectional Data Flow. The View sends sealed `Intents` to the ViewModel, which reduces them into a single `UiState` via a reducer function.
    - `domain/` — Contains pure Kotlin models, repository interfaces (ports), and UseCases. No Android framework dependencies.
-   - `data/` — Implements repository interfaces. Coordinates remote (ParsePlatform or API) and local (Room) data sources.
+   - `data/` — Implements repository interfaces. Prioritizes local caching (Room) for Offline-First capabilities, falling back to remote (gRPC/API).
    - `ui/` — Houses Compose screens, individual components, and ViewModels.
-4. **ParsePlatform Integration:** Always query the Parse SDK directly. Never write Retrofit wrappers or REST interfaces around Parse endpoints.
-5. **Kotlin Coroutines & Flow:** Use `StateFlow<UiState>` for rendering state, `SharedFlow` for one-time events (navigation, snackbars), and `viewModelScope` for scoping. Never use legacy LiveData or RxJava.
+4. **Network & Protocol:** Use gRPC via Wire or Ktor for high-performance, low-latency connections, especially over unstable networks.
+5. **Kotlin Coroutines & Flow:** Use `StateFlow<UiState>` for rendering state, `SharedFlow` for one-time events, and `viewModelScope` for scoping. Never use LiveData or RxJava.
 6. **Dependency Injection:** Hilt is mandatory. Annotate ViewModels with `@HiltViewModel` and inject constructor dependencies using `@Inject`.
 7. **Localization (en/fa):** All strings must be declared in `strings.xml`. Persian strings must reside inside `values-fa/strings.xml`. Ensure RTL support using `LocalLayoutDirection` on RTL screens.
 
@@ -33,9 +33,9 @@ com.company.project/
 │   │   │   └── UserDao.kt
 │   │   └── entity/
 │   │       └── UserEntity.kt
-│   ├── remote/                  # Retrofit API services
-│   │   ├── api/
-│   │   │   └── UserApi.kt
+│   ├── remote/                  # gRPC / Ktor API services
+│   │   ├── grpc/
+│   │   │   └── UserGrpcService.kt
 │   │   └── dto/
 │   │       └── UserResponse.kt
 │   └── repository/              # Repository implementations
@@ -82,18 +82,60 @@ UI (Compose + ViewModel) → Domain (UseCases + Models) → Data (Repositories +
 
 - **UI Layer**: Composable screens observe `StateFlow` from ViewModels. No business logic.
 - **Domain Layer**: Pure Kotlin module. Contains use cases and repository interfaces. No Android framework imports.
-- **Data Layer**: Implements repository interfaces. Coordinates local (Room) and remote (Retrofit) data sources.
+- **Data Layer**: Implements repository interfaces. Coordinates local (Room) and remote (gRPC/Retrofit) data sources with Offline-First priority.
 
-### MVVM (Model-View-ViewModel)
+### MVI (Model-View-Intent) with Unidirectional Data Flow
 
-Every screen gets a `ViewModel` that exposes `StateFlow<UiState>` and functions for user interactions. The Composable observes state and calls ViewModel methods. ViewModels survive configuration changes and are scoped to the navigation entry.
+Every screen gets a `ViewModel` that exposes a single `StateFlow<UiState>` and accepts a single `onIntent(intent: ViewIntent)` function. This eliminates race conditions in UI rendering. The ViewModel acts as a reducer: incoming Intents produce new UiState via aggregation over time.
 
 ```
-UserEvent → ViewModel → UseCase → Repository → DataSource
-                              ↓
-                         StateFlow<UiState>
-                              ↓
-                        Composable Screen
+User Action → sealed Intent → ViewModel (Reducer) → UseCase → Repository
+                                         ↓
+                                    StateFlow<UiState>
+                                         ↓
+                                   Composable Screen
+```
+
+```kotlin
+// Example MVI Contract
+data class CallerIdUiState(
+    val phoneNumber: String = "",
+    val displayName: String? = null,
+    val isLoading: Boolean = false,
+    val error: String? = null
+)
+
+sealed interface CallerIdIntent {
+    data class LookupNumber(val number: String) : CallerIdIntent
+    data object Retry : CallerIdIntent
+    data object Clear : CallerIdIntent
+}
+
+@HiltViewModel
+class CallerIdViewModel @Inject constructor(
+    private val lookupNumberUseCase: LookupNumberUseCase
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(CallerIdUiState())
+    val uiState: StateFlow<CallerIdUiState> = _uiState.asStateFlow()
+
+    fun onIntent(intent: CallerIdIntent) {
+        when (intent) {
+            is CallerIdIntent.LookupNumber -> lookupNumber(intent.number)
+            CallerIdIntent.Retry -> retry()
+            CallerIdIntent.Clear -> clear()
+        }
+    }
+
+    private fun lookupNumber(number: String) {
+        _uiState.update { it.copy(isLoading = true, error = null) }
+        viewModelScope.launch {
+            lookupNumberUseCase(number)
+                .onSuccess { name -> _uiState.update { it.copy(displayName = name, isLoading = false) } }
+                .onFailure { e -> _uiState.update { it.copy(error = e.message, isLoading = false) } }
+        }
+    }
+}
 ```
 
 ### Jetpack Compose
@@ -114,7 +156,7 @@ UserEvent → ViewModel → UseCase → Repository → DataSource
 ### Dependency Injection via Hilt
 
 - Annotate constructors with `@Inject` for simple cases.
-- Create `@Module` classes for interfaces and third-party objects (`Retrofit`, `Room`).
+- Create `@Module` classes for interfaces and third-party objects (`gRPC/Ktor`, `Room`).
 - Scope singletons properly (`@Singleton`, `@ViewModelScoped`, `@ActivityScoped`).
 
 ## Testing Strategies
@@ -122,7 +164,7 @@ UserEvent → ViewModel → UseCase → Repository → DataSource
 | Layer           | Test Type                  | Framework                     | File Naming                 |
 | --------------- | -------------------------- | ----------------------------- | --------------------------- |
 | Use cases       | Unit                       | JUnit 5 + Mockito / MockK     | `GetUserUseCaseTest.kt`     |
-| ViewModel       | Unit                       | JUnit 5 + Turbine (for Flows) | `ProfileViewModelTest.kt`   |
+| ViewModel (MVI) | Unit (Intent injection)    | JUnit 5 + Turbine (for Flows) | `CallerIdViewModelTest.kt`  |
 | Repository      | Unit                       | JUnit 5 + MockK               | `UserRepositoryImplTest.kt` |
 | UI / Composable | Snapshot / Compose UI Test | Compose Test                  | `ProfileScreenTest.kt`      |
 
