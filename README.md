@@ -195,6 +195,41 @@ To make the `code-search` skill (or any other reusable skill) available in _ever
    @explore find the main router using the code-search skill
    ```
 
+## Available Agent Skills Library
+
+### General & Workflow Skills
+
+| Skill Name                | Purpose                                                                                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `audit-agents`            | Enforces Zero-Autonomous-Commit (ZAC) workflows and generates/audits `AGENTS.md` for new and existing projects.                                                         |
+| `code-search`             | Mandatory for discovery. Uses MCP tools (`get_directory_tree`, `read_source_files`, `extract_signatures`) to explore the codebase without token bloat.                  |
+| `debug-instrumentation`   | Diagnoses complex runtime bugs, deadlocks, race conditions, and silent failures via strategic temporary logging and tracing.                                            |
+| `design-md`               | Extracts a comprehensive design system (`DESIGN.md`) directly from frontend source code — React, Vue, Svelte, Angular, plain HTML/CSS, or any web framework.            |
+| `doc-coauthoring`         | Guides users through a structured 3-stage workflow (Context Gathering, Refinement & Structure, Reader Testing) for co-authoring documentation with AI.                  |
+| `prompt-refactor`         | Meta-cognitive skill that refactors basic human prompts into elite, highly constrained, XML-tagged instructions optimized for AI agent reasoning.                       |
+| `task-generator`          | Automatically generates decentralized task files based on Manager instructions, with correct `<!-- BEGIN_GIT_DIFF -->` / `<!-- END_GIT_DIFF -->` markers.               |
+| `telegram-issue-sync`     | Syncs Telegram supergroup topics into local task files and GitHub issues, using embedded Python scripts for deterministic JSON state management.                        |
+| `telegram-message-export` | Intelligently exports a range of Telegram messages (text, media, voice notes) into a numbered folder, capturing reply hierarchies, and packing them into a ZIP archive. |
+| `versioning-and-release`  | Standardizes Semantic Versioning (SemVer), Keep a Changelog formats, Conventional Commits, and Safe Push Protocols across all repositories.                             |
+
+### Stack-Specific Blueprints
+
+| Stack             | Architecture Enforced                                                                                      |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| Android Java      | MVC/MVP with ViewBinding, lifecycle management, and RxJava for legacy Android development.                 |
+| Android Kotlin    | Jetpack Compose, MVI (Unidirectional Data Flow), Clean Architecture, Offline-First Room, and Hilt DI.      |
+| Flask Python      | Application Factory, Blueprints, SQLAlchemy, and config separation for modular Flask applications.         |
+| Go Gin            | Idiomatic Go, Clean Architecture layers, and Gin routing best practices for RESTful services.              |
+| Go Hexagonal gRPC | Hexagonal Architecture (Ports and Adapters), gRPC, Uber Fx compile-time DI, Redis caching, and PostgreSQL. |
+| iOS SwiftUI       | SwiftUI, MVVM, and modern iOS app architecture with declarative UI patterns.                               |
+| Next.js           | App Router, Server/Client Component separation, Server Actions, and Tailwind CSS design tokens.            |
+| Node.js Express   | 3-Layer Architecture (Controller/Service/Repository), centralized error handling, and env validation.      |
+| Python FastAPI    | Pydantic schemas, dependency injection, async routing, and layered service architecture.                   |
+| React Native Expo | Expo Router, React Native components, and cross-platform UI with native module support.                    |
+| React Vite        | React 18+ SPA architecture, hooks, and Vite configuration with optimized build tooling.                    |
+| Spring Boot       | DDD, hexagonal-style packaging, MapStruct, constructor injection, and global exception handlers.           |
+| Vue Nuxt          | Vue 3 Composition API, Nuxt 3 routing, and Pinia state management.                                         |
+
 ## Key V5 Changes
 
 - **Decentralized task architecture** — global `STATE.md` and `TODO.md` replaced by isolated task files in `tasks/` directory.
