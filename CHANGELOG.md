@@ -122,9 +122,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Changed
+## [5.16.0] — 2026-07-03
 
-- **`skill-templates/telegram-issue-sync/SKILL.md`** — Overhauled to fix the summarization bug (root cause: ambiguous "inject context" language allowed LLMs to paraphrase raw text). Now enforces verbatim `## Original Message ({LANGUAGE})` section, separate `## English Translation` section, `## Refactored Prompt` from prompt-refactor skill, `## Relevant Code Context` from autonomous codebase search, and `## AI Analysis & Opinion`. Added Phase 0 mandatory skill loading (prompt-refactor, task-generator). Added interactive GitHub issue toggle via Manager approval. Added 9-step per-candidate generation pipeline with data integrity guarantees table.
+### Added
+
+- **Strict Approval Gate & Inline Review Pattern:** Formalized the requirement that the AI Studio Orchestrator must receive explicit Manager approval before generating OpenCode implementation tasks.
+- **Markdown Review Convention:** Documented the `> 📝 **MANAGER REVIEW:**` blockquote syntax in both `system-prompt.md` and `README.md` to establish a standard method for Managers to leave inline feedback on architectural blueprints.
 
 ## [5.15.0] — 2026-07-02
 

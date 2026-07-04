@@ -54,6 +54,19 @@ If you have an older project using global `STATE.md` and `TODO.md` files:
 4. Tell the AI: _"Migrate this project from V4 to V5. Generate a task to update `AGENTS.md` and move existing roadmap items into `tasks/01-v5-migration.md`."_
 5. Ensure the `task-generator` and `audit-agents` skills are imported into `.opencode/skills/` (or installed globally).
 
+### Inline Markdown Reviews & Strict Approval
+
+Before any code is written, the Brain will present an Architectural Blueprint or Plan. OpenCode will **not** execute any implementation tasks without your explicit approval.
+
+To leave feedback directly on the generated Markdown plans:
+
+1. Copy the plan into your editor.
+2. Add `> 📝 **MANAGER REVIEW:**` blockquotes immediately below the section you want to change.
+3. Alternatively, use standard Markdown strikethrough (`~~text~~`) and bold (`**text**`) for direct edits.
+4. Paste the annotated Markdown back to AI Studio.
+
+The AI will process your inline feedback, generate a revised plan, and wait for your final "Approved" signal before writing code.
+
 ## Repository Structure
 
 ```
