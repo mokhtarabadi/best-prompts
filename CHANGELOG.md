@@ -126,6 +126,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **Max-Efficiency AI Skill Templates:** Completely rewrote the Node.js Express, Python FastAPI, and Android Kotlin skill templates to enforce "The 4 Pillars of AI-Native Code" (Strict Static Typing, Declarative UI, Low Boilerplate, Extreme Modularity) derived from LLM behavioral analysis.
+- **Node.js Template Upgrade:** Migrated from plain JavaScript to strict TypeScript with Zod validation to eliminate AI hallucinations.
+- **FastAPI Template Upgrade:** Enforced strict Pydantic V2 schemas and mandatory type-hinting.
+- **Android Template Upgrade:** Explicitly banned XML layouts to conserve token limits and mandated 100% modular Jetpack Compose.
+
 - **Strict Approval Gate & Inline Review Pattern:** Formalized the requirement that the AI Studio Orchestrator must receive explicit Manager approval before generating OpenCode implementation tasks.
 - **Markdown Review Convention:** Documented the `> 📝 **MANAGER REVIEW:**` blockquote syntax in both `system-prompt.md` and `README.md` to establish a standard method for Managers to leave inline feedback on architectural blueprints.
 

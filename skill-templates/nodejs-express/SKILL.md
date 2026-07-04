@@ -1,98 +1,34 @@
 ---
 name: backend-architecture-nodejs-express
-description: Architectural rules, 3-layer pattern, and naming conventions for Node.js Express
+description: AI-Optimized TypeScript Express architecture with Zod validation and 3-layer pattern.
 ---
 
-# Node.js + Express — Best Practices & AI-Driven Scaffolding
+# Node.js + Express (TypeScript) — AI-Native Scaffolding
 
-## Strict Node.js Service Scaffolding
+## AI Context & Token Optimization
 
-Initialize any Express service using this high-performance layout:
-
-1. **Zod Environment Validation:** Always validate `process.env` at startup using a strict Zod schema. Export a typed `config` object. Banned: accessing `process.env` directly inside modules.
-2. **3-Layer Architecture:** Strictly enforce `Route -> Controller -> Service` boundaries:
-   - Routes define endpoints and middleware.
-   - Controllers parse request bodies/parameters and return responses. No business logic.
-   - Services implement business logic and coordinate data layers. No request/response imports.
-3. **Centralized Global Error Handler:** Use a custom `AppError` class. Wrap controllers with `express-async-errors` to capture thrown exceptions globally and format them consistently. Banned: inline `try/catch` blocks inside controllers.
-4. **Security Basics:** Always register `helmet`, `cors`, and `express-rate-limit` middlewares at startup.
+1. **Strict TypeScript Only:** Pure JavaScript is banned. You MUST use strict TypeScript interfaces for all database models, API responses, and request bodies. This prevents AI hallucinations and ensures safe cross-file refactoring.
+2. **Zod for Everything:** Use Zod for environment validation, request body validation, and type inference.
+3. **Modular Files:** Keep files under 200 lines. The AI context window degrades when reading monolithic controllers.
 
 ## Project Structure
 
 ```
 src/
-├── config/              # Environment & app configuration
-│   ├── env.js           # Zod/Joi schema validation
-│   └── cors.js
+├── config/              # Environment & app configuration (env.ts)
 ├── routes/              # Route definitions (thin — no business logic)
-│   ├── index.js         # Router aggregator
-│   └── user.routes.js
-├── controllers/         # Request/response handling
-│   └── user.controller.js
-├── services/            # Business logic
-│   └── user.service.js
-├── middleware/           # Express middleware
-│   ├── errorHandler.js
-│   └── auth.js
-├── validators/          # Request validation schemas
-│   └── user.validator.js
-├── utils/               # Pure helper functions
-├── app.js               # Express app setup
-└── server.js            # Entry point (listens on port)
+├── controllers/         # Request/response handling (Typed req/res)
+├── services/            # Business logic (Pure functions, no Express imports)
+├── middleware/          # Express middleware (errorHandler.ts, auth.ts)
+├── types/               # Shared TypeScript interfaces & Zod schemas
+└── server.ts            # Entry point
 ```
-
-## Naming Conventions
-
-| Artifact              | Convention                 | Example           |
-| --------------------- | -------------------------- | ----------------- |
-| Files                 | `kebab-case`               | `user.service.js` |
-| Classes               | `PascalCase`               | `UserService`     |
-| Functions/Variables   | `camelCase`                | `getUserById`     |
-| Routes                | plural nouns, `kebab-case` | `/api/users/:id`  |
-| Environment variables | `UPPER_SNAKE_CASE`         | `DATABASE_URL`    |
 
 ## Architectural Patterns
 
-### 3-Layer Architecture
+**3-Layer Architecture:**
+`Route -> Controller -> Service`
+Routes bind paths to Controllers. Controllers parse typed requests using Zod and pass data to Services. Services execute logic and return typed objects.
 
-```
-Route  →  Controller  →  Service
-  │           │              │
-  │     (parse req,     (business logic,
-  │      format res)     orchestration)
-  │
-  ├── No business logic in routes
-  ├── No business logic in controllers
-  └── Services are pure — no req/res objects
-```
-
-### Centralized Error Handling
-
-Create a custom `AppError` class and a single `errorHandler` middleware. Every thrown error is caught and formatted in one place. Never use try/catch in controllers directly — wrap async route handlers with a utility like `express-async-errors` or an `asyncHandler` wrapper.
-
-### Environment Validation
-
-Validate `process.env` at startup using **Zod** (recommended) or **Joi**. Fail fast if a required variable is missing or has the wrong type. Export a typed `config` object so the rest of the app never touches `process.env` directly.
-
-### Avoiding Fat Controllers
-
-Controllers should only:
-
-1. Parse request parameters (body, params, query).
-2. Call a service method.
-3. Send the response (or pass to the error handler).
-
-Any logic beyond this belongs in a service, middleware, or utility.
-
-## Testing Strategies
-
-| Layer      | Test Type   | Framework          | File Naming               |
-| ---------- | ----------- | ------------------ | ------------------------- |
-| Service    | Unit        | Vitest / Jest      | `user.service.test.js`    |
-| Controller | Integration | Supertest + Vitest | `user.controller.test.js` |
-| Middleware | Unit        | Vitest             | `auth.middleware.test.js` |
-| API (E2E)  | E2E         | Supertest          | `user.api.test.js`        |
-
-- Mock external dependencies (DB, HTTP calls) at the service layer.
-- Use a test database or in-memory substitute for integration tests.
-- Aim for >80% coverage; 100% on shared middleware and validators.
+**Global Error Handling:**
+Wrap all controllers in `express-async-errors`. Throw custom `AppError` classes in services; let the global error middleware format the JSON response. Never write inline `try/catch` in controllers.

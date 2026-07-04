@@ -1,48 +1,30 @@
 ---
 name: backend-architecture-fastapi
-description: Pydantic schemas, dependency injection, and async routing for Python FastAPI
+description: AI-Optimized FastAPI architecture with strict Pydantic V2 schemas and modular routing.
 ---
 
-# FastAPI (Python) — Best Practices
+# FastAPI (Python) — AI-Native Scaffolding
+
+## AI Context & Token Optimization
+
+1. **Strict Type Hinting:** Python's dynamic nature causes AI hallucinations. You MUST use strict type hints (`-> dict`, `: str`) on every single function, argument, and return type.
+2. **Pydantic V2 First:** Lean heavily on Pydantic. It is the most token-efficient way for an AI to understand data structures.
+3. **Low Boilerplate:** FastAPI is chosen for its minimal boilerplate. Do not over-engineer abstractions. Keep dependency injection (`Depends()`) simple and localized.
 
 ## Project Structure
 
 ```
 app/
-├── api/                 # API routers and endpoints
-│   ├── dependencies.py  # Shared dependencies (e.g., get_db, get_current_user)
-│   └── v1/
-│       └── users.py     # User endpoints
-├── core/                # Core configurations, security, and settings
-│   ├── config.py        # Pydantic BaseSettings
-│   └── security.py      # JWT, hashing
-├── models/              # SQLAlchemy / Database models
-│   └── user.py
-├── schemas/             # Pydantic models (DTOs)
-│   └── user.py
-├── services/            # Business logic and CRUD operations
-│   └── user.py
-├── tests/               # Pytest test suite
-├── main.py              # FastAPI application instance
-└── requirements.txt     # Dependencies
+├── api/                 # API routers (v1/users.py)
+├── core/                # config.py (Pydantic BaseSettings)
+├── db/                  # Database session and setup (Supabase/Postgres)
+├── models/              # SQLAlchemy 2.0 Typed Models
+├── schemas/             # Pydantic V2 Models (DTOs)
+├── services/            # Business logic
+└── main.py              # FastAPI instance
 ```
-
-## Naming Conventions
-
-- **Files/Directories**: `snake_case` (e.g., `user_service.py`)
-- **Classes**: `PascalCase` (e.g., `UserCreate`)
-- **Functions/Variables**: `snake_case` (e.g., `get_user_by_id`)
-- **Constants/Settings**: `UPPER_SNAKE_CASE` (e.g., `SECRET_KEY`)
 
 ## Architectural Patterns
 
-- **Dependency Injection**: Use FastAPI's `Depends()` heavily for database sessions and auth. Never instantiate global DB sessions in routers.
-- **Separation of Concerns**: Routers (`api/`) only handle HTTP requests and Pydantic validation. All business logic lives in `services/`.
-- **Pydantic V2**: Use Pydantic schemas for request/response validation. Keep ORM models (`models/`) strictly separate from API schemas (`schemas/`).
-- **Async First**: Use `async def` for endpoints and asynchronous database drivers (e.g., `asyncpg` for SQLAlchemy) to maximize throughput.
-
-## Testing Strategies
-
-- **Framework**: `pytest` and `httpx` (for `AsyncClient`).
-- **Structure**: Create a `conftest.py` with fixtures for an overridden `get_db` dependency (using SQLite in-memory or a test database).
-- **Coverage**: Test all API endpoints via HTTP calls. Test complex service logic via pure unit tests.
+**Dependency Injection:** Use `Depends()` for database sessions (`get_db`) and authentication (`get_current_user`).
+**ORM to Schema Separation:** Never return SQLAlchemy models directly from endpoints. Always return Pydantic schemas to ensure data validation and hide sensitive fields.
