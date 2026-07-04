@@ -152,6 +152,8 @@ Create `tasks/{NEXT_ID}-hyphenated-title.md` with the following **exact structur
 ```markdown
 # Task {NEXT_ID}: {Title}
 
+**File:** `tasks/{NEXT_ID}-hyphenated-title.md`
+
 ## Original Message ({LANGUAGE})
 
 {RAW_TEXT — verbatim, zero changes}
