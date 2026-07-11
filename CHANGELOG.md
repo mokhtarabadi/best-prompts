@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Tree-sitter AST upgrade for `extract_signatures` MCP tool:** Replaced the regex-based signature extractor in `mcp-context-server/server.py` with a multi-language tree-sitter AST parser. Supports Python, JavaScript, TypeScript, Go, Java, Rust, and Kotlin with accurate function/class/interface/method signature extraction. Falls back to the existing regex when no grammar is available for a given language. Added 7 new tree-sitter dependencies to the inline script metadata.
+
 - **Bulk Prettier Format:** Ran `npx prettier --write "**/*.md"` across all 46 markdown files to enforce consistent formatting — blank-line spacing, list indentation, code-fence normalization, and trailing newlines.
 - **Android Kotlin Template Overhaul:** `skill-templates/android-kotlin/SKILL.md` completely rewritten with strict XML ban, Hilt DI mandate, compile-time safe DB (SQLDelight/Room), and enhanced null-safety rules.
 - **React Native Expo Template Overhaul:** `skill-templates/react-native-expo/SKILL.md` rewritten with Expo Managed Workflow enforcement, ban on native folder edits, mandatory NativeWind, and strict TypeScript requirement.
