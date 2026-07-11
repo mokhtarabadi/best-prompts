@@ -151,7 +151,10 @@ def _get_ts_language(lang_id: str) -> object:
     try:
         mod = importlib.import_module(pkg_name)
         from tree_sitter import Language as TSLanguage
-        lang = TSLanguage(mod.language())
+        if lang_id == "typescript":
+            lang = TSLanguage(mod.language_typescript())
+        else:
+            lang = TSLanguage(mod.language())
         _ts_language_cache[lang_id] = lang
         return lang
     except Exception:
