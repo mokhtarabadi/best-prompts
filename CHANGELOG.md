@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Session Compactor prompt** — Refactored `user-prompts/session-compactor.md` to full XML-tagged Markdown format with `<role>`, `<system_context>`, `<agentic_reasoning>`, `<constraints>`, and `<output_format>` sections. Added `<reasoning_log>` block and expanded restoration report to 7 structured sections (Project Overview, Global Config, Task Registry, Codebase State, Architectural Map, Next Milestones, Restoration Protocol) with copy-paste usage instructions.
 - **README roadmap** — Added Memory Management (Smart Note-Taking MCP & Skill) as item #7 in the Future Architectural Roadmap, describing a local `memory-mcp` server and `project-memory` agent skill for persistent context retention.
 - **README roadmap** — Added Adversarial QA Persona as item #8 and Lifecycle Task Architecture (Kanban & Archiving) as item #9 to the Future Architectural Roadmap, describing a dedicated `[QA Engineer]` persona with adversarial testing instructions and a state-based Kanban folder workflow with archiving compaction.
 
