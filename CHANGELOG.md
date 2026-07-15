@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Voice-to-Text Enhancer prompt** — New `user-prompts/voice-to-text-enhancer.md` with XML-tagged `<role>`, `<system_context>`, `<agentic_reasoning>`, `<constraints>`, and `<output_format>` sections. Transforms raw speech-to-text dictation into polished, actionable Markdown prompts. `user-prompts/` directory created as a new top-level namespace for user-facing prompt templates.
+- **Persian-to-English Dictation prompt** — New `user-prompts/persian-to-english-dictation.md` with XML-tagged sections. Converts raw Persian Speech-to-Text dictation into flawless, native-sounding English via phonetic decoding, contextual reconstruction, and idiomatic translation.
+
 ### Changed
 
 - **README roadmap** — Added Memory Management (Smart Note-Taking MCP & Skill) as item #7 in the Future Architectural Roadmap, describing a local `memory-mcp` server and `project-memory` agent skill for persistent context retention.
