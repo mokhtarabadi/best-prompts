@@ -289,3 +289,10 @@ See `.opencode/skills/sop-maintenance/SKILL.md` for the rules that AI agents mus
 4. **Database Migration Management:** Create a `database-migration` skill to strictly forbid direct schema alterations, forcing the use of standard migration tools (Prisma, Alembic, Flyway) for safe, repeatable deployments.
 5. **Automated Prompt Refactoring Pipeline:** Integrate the new `prompt-refactor` skill into an auto-refine pre-hook so that Manager inputs are automatically expanded into elite system prompts before code execution begins.
 6. **Hexagonal Architecture Expansion:** Port the strict Ports & Adapters blueprint from Go to our Python (FastAPI) and TypeScript (Node.js) templates to unify "Max Power" backend design patterns across all supported stacks.
+7. **Memory Management (Smart Note-Taking MCP & Skill):** Develop a local MCP server paired with a dedicated Agent Skill to give OpenCode persistent, project-specific memory. This solves the issue of the admin needing to repeatedly explain project quirks (e.g., "for this project, tests must run with flag X").
+   - **Storage:** State will be maintained in a local JSON file within the project itself (e.g., `.opencode/project-memory.json`), allowing it to be committed or git-ignored as needed.
+   - **MCP Server (`memory-mcp`):** A lightweight Python/FastMCP server providing tools to `store_note`, `retrieve_notes`, and `search_memory` intelligently.
+   - **Agent Skill (`project-memory`):** A `SKILL.md` that teaches OpenCode the exact interface for this memory. It will enable seamless, natural language commands from the admin, such as:
+     - _"OpenCode, load the memory skill, see what the notes are, and follow them."_
+     - _"OpenCode, call the memory skill; remember this thing I'm telling you about the database tests."_
+   - **Goal:** Ensure complete, highly detailed context retention across isolated sessions without permanently bloating the core `AGENTS.md` file.
