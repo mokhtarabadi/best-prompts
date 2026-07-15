@@ -296,3 +296,8 @@ See `.opencode/skills/sop-maintenance/SKILL.md` for the rules that AI agents mus
      - _"OpenCode, load the memory skill, see what the notes are, and follow them."_
      - _"OpenCode, call the memory skill; remember this thing I'm telling you about the database tests."_
    - **Goal:** Ensure complete, highly detailed context retention across isolated sessions without permanently bloating the core `AGENTS.md` file.
+8. **Adversarial QA Persona:** Introduce a dedicated `[QA Engineer]` persona to the `system-prompt.md`. Unlike the Code Reviewer (who checks for formatting and architectural compliance), the QA Engineer's explicit instruction is adversarial: _actively attempt to break the Senior Programmer's implementation_. It will focus on generating negative test cases, boundary tests, fuzzing scripts, and identifying race conditions, ensuring enterprise-grade stability before a task is marked complete.
+9. **Lifecycle Task Architecture (Kanban & Archiving):** Migrate the flat `tasks/` directory into a state-based Kanban folder structure to prevent context bloat and improve project tracking.
+   - **Folders:** `tasks/backlog/`, `tasks/in-progress/`, `tasks/qa/`, and `tasks/completed/`.
+   - **Workflow:** The `task-generator` skill creates tasks in `backlog/`. As the Programmer and QA personas work, the file is physically moved through the pipeline.
+   - **Compaction:** An archiving skill will periodically compress older files in the `completed/` directory into dense, single-file summaries in `docs/history/` (e.g., `milestone-1-summary.md`), keeping the active `grep` and `glob` MCP searches blazingly fast.
