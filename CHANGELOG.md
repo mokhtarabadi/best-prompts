@@ -13,12 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **OpenCode docs mirror** — All 36 documentation pages from opencode.ai/docs fetched into `docs/opencode/` as clean Markdown files for offline reference.
 - **`LLM.txt`** — AI agent auto-configuration manual at project root. Contains platform-specific OpenCode setup instructions (macOS/Linux via Bash, Windows via PowerShell), the exact `opencode.json` payload for the custom_context MCP server, skill installation commands, and a ready-to-use "Agent Prompt" for self-configuration.
 - **`docs/conventions.md`** — Centralized documentation for syntax rules and automation conventions (e.g., `--body-file` pattern for gh commands).
+- **Strict Grounding constraint** — Added to `<constraints>` block in `system-prompt.md`. Enforces that the assistant relies only on provided context, treating external knowledge as unsupported.
+- **CRITICAL RULE 3 (Output Truncation)** — Added to `<opencode_implementation_task_template>` instructing OpenCode to pipe massive test output through `grep`/`tail` to avoid 50KB truncation.
 
 ### Changed
 
 - **Rebranded repository to `cognitive-lead-hq`** — updated GitHub description, topics, and renamed repo. Restructured README.md with flat-square shields.io badges, improved hierarchy, Quick Start section. Preserved all Agent Skills tables and MCP configuration sections.
 - **Enforced `--body-file` pattern for all `gh issue create` commands** — replaced inline `--body` in `skill-templates/telegram-issue-sync/SKILL.md`, `tasks/22-refactor-telegram-skill-templates.md`, `tasks/11-enforce-project-skill-loading.md`, and `tasks/06-implement-telegram-issue-sync-skill.md` with heredoc `--body-file` pattern using single-quoted `'EOF'` delimiter.
 - **README.md** — Updated Quick Start to reference `LLM.txt` as the canonical auto-setup source.
+- **System prompt upgraded to V5.19.0** — `<system_version>` bumped. `<agentic_reasoning>` rewritten with Google's official 10-step nested reasoning framework with numbered sub-points, explicit tool-preference rules, and intelligent retry logic. Updated `<opencode_implementation_task_template>` with subagent delegation (`@scout`, `@general` alongside `@explore`) and `apply_patch` path marker syntax.
 
 ## [5.18.0] — 2026-07-13
 
