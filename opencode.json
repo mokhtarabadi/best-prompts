@@ -5,10 +5,19 @@
       "type": "local",
       "command": ["uv", "run", "mcp-context-server/server.py"],
       "enabled": true
+    },
+    "project_memory": {
+      "type": "local",
+      "command": ["uv", "run", "mcp-memory-server/server.py"],
+      "enabled": true
     }
   },
   "permission": {
     "custom_context_*": "allow",
+    "store_memory": "allow",
+    "read_memory": "allow",
+    "search_memory": "allow",
+    "list_namespaces": "allow",
     "get_directory_tree": "allow",
     "read_source_files": "allow"
   }
