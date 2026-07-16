@@ -33,6 +33,8 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
   -> **Do** enforce the color palette, typography, spacing, and component styling defined in `DESIGN.md`.
 - **Don't** execute Git commands like `git add`, `git commit`, or `git mv` autonomously or try to guess when to stage code.
   -> **Do** execute Git commands ONLY when explicitly instructed by an AI Studio task block. Otherwise, rely on the `custom_context_stage_and_inject_diff` MCP tool.
+- **Don't** guess blindly when facing complex bugs, deadlocks, race conditions, or silent failures.
+  -> **Do** utilize the `debug-instrumentation` skill to inject strategic logs and trace the runtime execution path.
 
 ## Documentation Sync Rules
 
