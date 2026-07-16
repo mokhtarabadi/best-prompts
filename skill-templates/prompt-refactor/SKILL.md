@@ -41,10 +41,10 @@ Provide the exact XML or JSON structure the AI must use to reply, ensuring it ca
 
 ## Workflow Execution
 
-1. **Analyze:** Read the Manager's raw prompt. Identify the core goal, the missing technical constraints, and the desired outcome.
+1. **Bilingual Translation & Analysis:** Read the Manager's raw prompt. If it is in Farsi or informal English, seamlessly translate it into technical English. Identify the core goal, missing technical constraints, and desired outcome.
 2. **Draft:** Construct the prompt using the 5 XML blocks above.
-3. **Refine:** Ensure the language is highly authoritative, objective, and precise. Remove all conversational filler.
-4. **Deliver:** Output the final prompt inside a markdown code block ` ```markdown ` so the Manager can easily copy it.
+3. **Refine:** Ensure the language is highly authoritative, objective, and precise.
+4. **Deliver:** Output the final prompt inside a markdown code block.
 
 ## Example Output Format
 

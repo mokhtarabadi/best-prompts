@@ -37,5 +37,6 @@ Fix a critical Git tracking bug caused by standard `mv` fallbacks when Kanban di
 ## Factual Git Diff
 
 <!-- BEGIN_GIT_DIFF -->
+
 **Factual Git Diff:** Stored in Commit Hash: `244553b44efb9a19c02e71fe228e736cd6593cb9`
 <!-- END_GIT_DIFF -->

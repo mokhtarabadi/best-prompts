@@ -35,6 +35,8 @@ This repository is the Headquarters for the Cognitive Lead AI multi-agent system
   -> **Do** execute Git commands ONLY when explicitly instructed by an AI Studio task block. Otherwise, rely on the `custom_context_stage_and_inject_diff` MCP tool.
 - **Don't** guess blindly when facing complex bugs, deadlocks, race conditions, or silent failures.
   -> **Do** utilize the `debug-instrumentation` skill to inject strategic logs and trace the runtime execution path.
+- **Don't** execute raw, informal, or non-English (Farsi) prompts directly.
+  -> **Do** load the `prompt-refactor` skill to translate and expand the intent into an elite English spec first. (Note: If you receive a standard XML task block, skip this and execute normally).
 
 ## Documentation Sync Rules
 

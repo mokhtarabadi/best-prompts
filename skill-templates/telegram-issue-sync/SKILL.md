@@ -104,9 +104,9 @@ Using the `RAW_TEXT` (the verbatim original message, which may be Persian or any
 
 ---
 
-**3. Load & Run Prompt Refactor:**
+**3. Load & Run Prompt Refactor (The Omni-Channel Filter):**
 
-The `prompt-refactor` skill should already be loaded (from Phase 0). Use its methodology to refactor the `RAW_TEXT` into an enhanced "Max Power" prompt. Store the output in a variable `REFACTORED_PROMPT`.
+The `prompt-refactor` skill should already be loaded (from Phase 0). Use it as the omni-channel filter: pass the `RAW_TEXT` (which may be Farsi) to it so it translates the text to English, expands the architectural intent, and generates an enhanced "Max Power" prompt. Store the output in a variable `REFACTORED_PROMPT`.
 
 The refactored prompt MUST include the 5 XML blocks:
 

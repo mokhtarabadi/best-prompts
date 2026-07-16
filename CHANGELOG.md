@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.2.0] — 2026-07-16
+
+### Added
+
+- **Omni-Channel Bilingual Prompt Pipeline** — bilingual (Farsi-to-English) translation and expansion layer embedded across AI Studio, OpenCode, and Telegram syncs.
+- **Bilingual Translation guardrail** — new guardrail in `AGENTS.md` and `audit-agents` skill (template + audit criteria) forbidding execution of raw non-English prompts before `prompt-refactor` processing.
+
+### Changed
+
+- **System prompt upgraded to V6.2.0** — `<system_version>` bumped. `<user_input_processing>` block replaced with 4-step Automated Refactoring Pipeline: Bilingual Translation → Intent Expansion → Clarification → Seamless Routing.
+- **`prompt-refactor` skill** — Workflow Execution Step 1 updated to Bilingual Translation & Analysis: raw Farsi or informal English is seamlessly translated into technical English before structuring.
+- **`telegram-issue-sync` skill** — Phase 3 Step 3 now explicitly documented as the omni-channel filter, passing `RAW_TEXT` (which may be Farsi) through `prompt-refactor` for translation and architectural expansion.
+- **README.md** — Roadmap item #5 struck through and marked implemented in V6.2.0.
+
 ## [6.1.0] — 2026-07-16
 
 ### Fixed
