@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **System prompt upgraded to V6.5.0** — `<system_version>` bumped. `perplexity-research` added to `<agent_skills_registry>` under Global Workflow Skills. Execution workflow expanded with Step 1.5 Deep Research Loop.
 
+### Changed
+
+- **`perplexity-research` skill UX refactored** — skill now embeds the full 3-Step Framework prompt inline, so the Manager can copy the entire Perplexity session prompt with one click instead of opening `user-prompts/perplexity-deep-research.md` separately. The standalone user prompt file is preserved for manual use-cases.
+
 ## [6.4.1] — 2026-07-16
 
 ### Changed
