@@ -17,6 +17,12 @@ Whenever the Manager explicitly states a rule, preference, or architectural cons
 2. Choose a concise, snake_case `key` (e.g., `prisma_migration_rule`).
 3. Call the `store_memory` MCP tool with the content. Ensure `overwrite=True` if updating an existing rule.
 
+## When to DELETE Memory (Trigger)
+
+If the Manager explicitly states that a previous rule or constraint is no longer valid (e.g., "We are no longer using Webpack, drop those rules"), you MUST:
+
+1. Call `delete_memory` with the obsolete `namespace` and `key` to prune the memory bank and prevent stale context injection.
+
 ## When to RETRIEVE Memory (Trigger)
 
 At the start of EVERY new implementation task (during the Context Phase):

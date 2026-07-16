@@ -35,14 +35,17 @@ Implement a persistent project memory system consisting of an MCP server (`mcp-m
 **Vulnerability 2 — Dangling Temp Files:** If `os.replace` raised between `mkstemp` and `os.replace`, the temp file leaked on disk. Fixed by wrapping the critical section in try/except with explicit `os.unlink(temp_path)` cleanup.
 
 ### Architectural Reasoning
+
 This task implements the long-planned Memory Management system (Roadmap item #7). The architecture follows the same pattern as the existing `custom_context` MCP + `code-search` skill pairing: a FastMCP server for data operations, and a `SKILL.md` teaching OpenCode the interface protocol.
 
 ### Key Design Decisions
+
 1. **Markdown files over JSON** — The original roadmap suggested `.opencode/project-memory.json`, but markdown files under `.opencode/memory/<namespace>/<key>.md` are more git-friendly, human-readable, and support atomic writes via `tempfile` + `os.replace` without corruption risk.
 2. **Namespace slicing** — Memories are organized into namespaces (e.g., `testing`, `database`, `quirks`) to prevent context bloat and support targeted retrieval.
 3. **Context Bootstrapping in audit-agents** — The new constraint forces every task's Context Phase to proactively load relevant memories, preventing the Manager from repeating project rules.
 
 ### Files Changed
+
 - **Created:** `mcp-memory-server/server.py` (FastMCP server, 4 tools)
 - **Created:** `skill-templates/project-memory/SKILL.md` (store/retrieve triggers)
 - **Modified:** `opencode.json` (registered `project_memory` MCP server + permissions)
@@ -52,11 +55,13 @@ This task implements the long-planned Memory Management system (Roadmap item #7)
 - **Modified:** `CHANGELOG.md` (6.4.0 section)
 
 ### Verifications
+
 - Python syntax: PASS (py_compile)
 - Markdown formatting: PASS (prettier — all files clean, README.md reformatted)
 
 ## Factual Git Diff
 
 <!-- BEGIN_GIT_DIFF -->
+
 **Factual Git Diff:** Stored in Commit Hash: `54e0fcd45fd186d817a0d5a2caea5e6bd1206934`
 <!-- END_GIT_DIFF -->

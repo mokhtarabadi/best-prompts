@@ -77,6 +77,25 @@ def read_memory(namespace: str, key: str) -> str:
         return f"Error reading memory: {str(e)}"
 
 @mcp.tool()
+def delete_memory(namespace: str, key: str) -> str:
+    """Deletes a specific memory snippet if it is no longer relevant."""
+    try:
+        ns_dir = _validate_and_resolve(namespace, key)
+        file_path = ns_dir / f"{key}.md"
+
+        if not file_path.is_file():
+            return f"Error: Memory '{key}' not found in namespace '{namespace}'."
+
+        file_path.unlink()
+
+        if not any(ns_dir.iterdir()):
+            ns_dir.rmdir()
+
+        return f"Memory '{key}' successfully deleted from '{namespace}'."
+    except Exception as e:
+        return f"Error deleting memory: {str(e)}"
+
+@mcp.tool()
 def search_memory(query: str, namespace: Optional[str] = None) -> str:
     """Performs a full-text search across memories. If namespace is provided, limits search to that slice."""
     if not MEMORY_DIR.exists():

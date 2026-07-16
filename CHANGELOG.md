@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- **Project Memory MCP Server** (`mcp-memory-server/server.py`) — new FastMCP server providing persistent, project-scoped memory via atomic-write markdown files under `.opencode/memory/`. Four tools: `store_memory` (with atomic writes using tempfile + os.replace), `read_memory`, `search_memory` (full-text across namespaces), and `list_namespaces`.
+- **Project Memory MCP Server** (`mcp-memory-server/server.py`) — new FastMCP server providing persistent, project-scoped memory via atomic-write markdown files under `.opencode/memory/`. Five tools: `store_memory` (with atomic writes using tempfile + os.replace), `read_memory`, `search_memory` (full-text across namespaces), `list_namespaces`, and `delete_memory` (for pruning obsolete constraints).
 - **`project-memory` Agent Skill** (`skill-templates/project-memory/SKILL.md`) — companion skill teaching OpenCode when to proactively store Manager constraints and when to retrieve them during the Context Phase.
 - **`opencode.json` registration** — `project_memory` MCP server registered alongside `custom_context`, with explicit permissions for `store_memory`, `read_memory`, `search_memory`, and `list_namespaces`.
 - **System prompt integration** — `project-memory` added to `<agent_skills_registry>` under Global Workflow Skills. Software Architect and Senior Programmer personas updated to proactively save Manager constraints via the `project-memory` skill.

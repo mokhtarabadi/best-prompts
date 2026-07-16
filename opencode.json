@@ -15,6 +15,7 @@
   "permission": {
     "custom_context_*": "allow",
     "store_memory": "allow",
+    "delete_memory": "allow",
     "read_memory": "allow",
     "search_memory": "allow",
     "list_namespaces": "allow",
