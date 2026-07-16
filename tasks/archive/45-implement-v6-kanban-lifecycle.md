@@ -34,6 +34,7 @@ Upgrade the repository to V6 Kanban Task Architecture: scaffold Kanban directori
 Successfully deployed V6 Kanban Task Architecture across the entire repo:
 
 **Kanban Directories Created:**
+
 - `tasks/backlog/` — for open/unstarted tasks
 - `tasks/in-progress/` — for active work
 - `tasks/qa/` — for review
@@ -41,18 +42,22 @@ Successfully deployed V6 Kanban Task Architecture across the entire repo:
 - `tasks/archive/` — for milestone-compacted history
 
 **MCP Server (`mcp-context-server/server.py`):**
+
 - Added `commit_and_clean_task` tool — commits staged changes, extracts hash, replaces raw diff in task file with hash reference, amends commit. This keeps task files lean and commits compact.
 
 **New Skills Created:**
+
 - `skill-templates/migrate-kanban/SKILL.md` — scans flat tasks/ directory, classifies by Status metadata, uses `git mv` to migrate into Kanban folders
 - `skill-templates/archive-tasks/SKILL.md` — milestone compaction: reads completed/ tasks, generates dense `docs/history/milestone-X-summary.md`, moves to archive/
 
 **Skills Updated:**
+
 - `task-generator` — directory refs changed from `tasks/` to `tasks/backlog/`; ID calc uses `find` across all Kanban subdirs
 - `telegram-issue-sync` — NEXT_ID command uses `find`; all file creation paths now `tasks/backlog/`
 - `audit-agents` — both Target Audit Criteria blocks and AGENTS.md template updated to list 5 Kanban directories
 
 **System Prompt V6.0.0:**
+
 - Version bumped from 5.19.0 to 6.0.0
 - Project Planner manages state-based Kanban directories
 - Code Reviewer APPROVED action uses `custom_context_commit_and_clean_task`
@@ -60,6 +65,7 @@ Successfully deployed V6 Kanban Task Architecture across the entire repo:
 - Summary phase path updated to `tasks/in-progress/`
 
 **AGENTS.md Updated:**
+
 - Core File Locations now list all 5 Kanban directories
 - End-of-Task sequence expanded to include move-to-completed step and `custom_context_commit_and_clean_task` alternative
 
@@ -76,5 +82,6 @@ Also fixed an edge case in `skill-templates/migrate-kanban/SKILL.md`: added `[ -
 ## Factual Git Diff
 
 <!-- BEGIN_GIT_DIFF -->
+
 **Factual Git Diff:** Stored in Commit Hash: `d5a77d8`
 <!-- END_GIT_DIFF -->

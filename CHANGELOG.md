@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.1.0] — 2026-07-16
+
+### Added
+
+- **QA Engineer persona** — new `<persona name="QA Engineer">` block in `system-prompt.md` inserted between Project Planner and Code Reviewer. Adopts a strictly adversarial mindset: reads the factual Git Diff, looks for missing null checks, race conditions, unchecked inputs, and missing negative test cases. Outputs QA_PASSED or QA_REJECTED with vulnerabilities and missing tests report.
+- **7-step execution workflow** — `<execution_workflow>` expanded from 6 to 7 steps with a new Step 4 (Adversarial QA) between implementation and team review. Fix loop now involves both Programmer and QA if either rejects.
+
+### Changed
+
+- **System prompt upgraded to V6.1.0** — `<system_version>` bumped. QA Engineer persona added. Execution workflow updated with adversarial QA step.
+- **Summary phase handover instructions** — `<summary_phase>` in `<opencode_implementation_task_template>` now differentiates between logic tasks (instructing Manager to send to QA Engineer) and documentation/CSS tasks (sending directly to Code Reviewer), preventing human workflow errors.
+- **README.md** — How to Operate section updated with QA Loop description. Roadmap item #8 struck through and marked implemented in V6.1.0.
+
 ## [6.0.0] — 2026-07-16
 
 ### Added

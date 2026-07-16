@@ -38,6 +38,7 @@ This system relies on a strict separation of concerns:
 
 - **The Brain (Google AI Studio):** You paste the `system-prompt.md` here. It acts as the Orchestrator. It has _no_ direct access to your files or terminal. It thinks, plans, and generates XML task blocks.
 - **The Hands (OpenCode):** Runs locally on your machine. You paste the XML task blocks here. It executes file changes, runs bash commands, triggers Agent Skills, and generates task summaries to feed back to the Brain.
+- **The QA Loop:** After OpenCode implements a task, the Manager pastes the task file back to AI Studio. The QA Engineer persona performs adversarial testing — actively trying to break the logic. If QA fails, a fix task is generated. If QA passes, the Code Reviewer does a final architectural review before the task is committed and closed.
 
 ### Scenario A: Phase 0 for a Brand New Project
 
@@ -321,7 +322,7 @@ See `.opencode/skills/sop-maintenance/SKILL.md` for the rules that AI agents mus
      - _"OpenCode, load the memory skill, see what the notes are, and follow them."_
      - _"OpenCode, call the memory skill; remember this thing I'm telling you about the database tests."_
    - **Goal:** Ensure complete, highly detailed context retention across isolated sessions without permanently bloating the core `AGENTS.md` file.
-8. **Adversarial QA Persona:** Introduce a dedicated `[QA Engineer]` persona to the `system-prompt.md`. Unlike the Code Reviewer (who checks for formatting and architectural compliance), the QA Engineer's explicit instruction is adversarial: _actively attempt to break the Senior Programmer's implementation_. It will focus on generating negative test cases, boundary tests, fuzzing scripts, and identifying race conditions, ensuring enterprise-grade stability before a task is marked complete.
+8. ~~**Adversarial QA Persona:** Introduce a dedicated `[QA Engineer]` persona to the `system-prompt.md`. Unlike the Code Reviewer (who checks for formatting and architectural compliance), the QA Engineer's explicit instruction is adversarial: _actively attempt to break the Senior Programmer's implementation_. It will focus on generating negative test cases, boundary tests, fuzzing scripts, and identifying race conditions, ensuring enterprise-grade stability before a task is marked complete.~~ ✅ **Implemented in V6.1.0**
 9. **Lifecycle Task Architecture (Kanban & Archiving):** ~~Migrate the flat `tasks/` directory into a state-based Kanban folder structure to prevent context bloat and improve project tracking.~~ ✅ **Implemented in V6.0.0**
    ~~- **Folders:** `tasks/backlog/`, `tasks/in-progress/`, `tasks/qa/`, and `tasks/completed/`.~~
    ~~- **Workflow:** The `task-generator` skill creates tasks in `backlog/`. As the Programmer and QA personas work, the file is physically moved through the pipeline.~~

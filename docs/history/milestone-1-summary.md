@@ -9,47 +9,47 @@ Established the Cognitive Lead AI HQ as a documentation-only multi-agent orchest
 
 ## Files Modified
 
-| File | Change |
-|------|--------|
-| `AGENTS.md` | Central global rules — decentralized tasks, ZAC, gatekeeper, skill loading, end-of-task sequence |
-| `system-prompt.md` | Core orchestration prompt — V5.x series upgrades, skill loading, halt protocol, review loop |
-| `README.md` | Full restructure, shields badges, skill tables, future roadmap |
-| `CHANGELOG.md` | All versioned entries across milestone |
-| `LLM.txt` | Self-configuring OpenCode setup manual |
-| `DESIGN.md` | UI/UX design system (colors, typography, component styling) |
-| `docs/architecture.md` | Architecture overview template |
-| `docs/data_model.md` | Database entity schemas |
-| `docs/conventions.md` | Syntax and naming conventions |
-| `docs/gemini-prompting-strategies.md` | Gemini-specific prompting guide |
-| `mcp-context-server/server.py` | Custom context MCP server |
-| `.opencode/skills/sop-maintenance/SKILL.md` | SOP maintenance skill |
-| `skill-templates/audit-agents/SKILL.md` | Agent protocol auditor |
-| `skill-templates/task-generator/SKILL.md` | Task file generator |
-| `skill-templates/debug-instrumentation/SKILL.md` | Debug logging skill |
-| `skill-templates/versioning-and-release/SKILL.md` | SemVer and changelog skill |
-| `skill-templates/telegram-issue-sync/SKILL.md` | Telegram → GitHub sync |
-| `skill-templates/telegram-message-export/SKILL.md` | Telegram message export |
-| `skill-templates/code-search/SKILL.md` | Codebase exploration |
-| `skill-templates/prompt-refactor/SKILL.md` | Prompt refactoring |
-| `skill-templates/android-kotlin/SKILL.md` | Max Power Android template |
-| `skill-templates/ios-swiftui/SKILL.md` | iOS SwiftUI template |
-| `skill-templates/react-native-expo/SKILL.md` | RN Expo template |
-| `skill-templates/nextjs/SKILL.md` | Next.js App Router template |
-| `skill-templates/react-vite/SKILL.md` | React Vite SPA template |
-| `skill-templates/vue-nuxt/SKILL.md` | Vue Nuxt 3 template |
-| `skill-templates/nestjs-prisma-vertical/SKILL.md` | NestJS Prisma template |
-| `skill-templates/nodejs-express/SKILL.md` | Node.js Express template |
-| `skill-templates/python-fastapi/SKILL.md` | FastAPI template |
-| `skill-templates/flask-python/SKILL.md` | Flask template |
-| `skill-templates/go-gin/SKILL.md` | Go Gin template |
-| `skill-templates/go-hexagonal-grpc/SKILL.md` | Go hexagonal gRPC template |
-| `skill-templates/spring-boot/SKILL.md` | Spring Boot template |
-| `skill-templates/archive-tasks/SKILL.md` | Task archiving skill |
-| `skill-templates/migrate-kanban/SKILL.md` | Kanban migration skill |
-| `user-prompts/session-compactor.md` | Session compactor prompt |
-| `user-prompts/voice-to-text-enhancer.md` | Voice-to-text prompt |
-| `user-prompts/persian-to-english-dictation.md` | Persian dictation prompt |
-| `user-prompts/agile-pm-state-manager.md` | Agile PM prompt |
+| File                                               | Change                                                                                           |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `AGENTS.md`                                        | Central global rules — decentralized tasks, ZAC, gatekeeper, skill loading, end-of-task sequence |
+| `system-prompt.md`                                 | Core orchestration prompt — V5.x series upgrades, skill loading, halt protocol, review loop      |
+| `README.md`                                        | Full restructure, shields badges, skill tables, future roadmap                                   |
+| `CHANGELOG.md`                                     | All versioned entries across milestone                                                           |
+| `LLM.txt`                                          | Self-configuring OpenCode setup manual                                                           |
+| `DESIGN.md`                                        | UI/UX design system (colors, typography, component styling)                                      |
+| `docs/architecture.md`                             | Architecture overview template                                                                   |
+| `docs/data_model.md`                               | Database entity schemas                                                                          |
+| `docs/conventions.md`                              | Syntax and naming conventions                                                                    |
+| `docs/gemini-prompting-strategies.md`              | Gemini-specific prompting guide                                                                  |
+| `mcp-context-server/server.py`                     | Custom context MCP server                                                                        |
+| `.opencode/skills/sop-maintenance/SKILL.md`        | SOP maintenance skill                                                                            |
+| `skill-templates/audit-agents/SKILL.md`            | Agent protocol auditor                                                                           |
+| `skill-templates/task-generator/SKILL.md`          | Task file generator                                                                              |
+| `skill-templates/debug-instrumentation/SKILL.md`   | Debug logging skill                                                                              |
+| `skill-templates/versioning-and-release/SKILL.md`  | SemVer and changelog skill                                                                       |
+| `skill-templates/telegram-issue-sync/SKILL.md`     | Telegram → GitHub sync                                                                           |
+| `skill-templates/telegram-message-export/SKILL.md` | Telegram message export                                                                          |
+| `skill-templates/code-search/SKILL.md`             | Codebase exploration                                                                             |
+| `skill-templates/prompt-refactor/SKILL.md`         | Prompt refactoring                                                                               |
+| `skill-templates/android-kotlin/SKILL.md`          | Max Power Android template                                                                       |
+| `skill-templates/ios-swiftui/SKILL.md`             | iOS SwiftUI template                                                                             |
+| `skill-templates/react-native-expo/SKILL.md`       | RN Expo template                                                                                 |
+| `skill-templates/nextjs/SKILL.md`                  | Next.js App Router template                                                                      |
+| `skill-templates/react-vite/SKILL.md`              | React Vite SPA template                                                                          |
+| `skill-templates/vue-nuxt/SKILL.md`                | Vue Nuxt 3 template                                                                              |
+| `skill-templates/nestjs-prisma-vertical/SKILL.md`  | NestJS Prisma template                                                                           |
+| `skill-templates/nodejs-express/SKILL.md`          | Node.js Express template                                                                         |
+| `skill-templates/python-fastapi/SKILL.md`          | FastAPI template                                                                                 |
+| `skill-templates/flask-python/SKILL.md`            | Flask template                                                                                   |
+| `skill-templates/go-gin/SKILL.md`                  | Go Gin template                                                                                  |
+| `skill-templates/go-hexagonal-grpc/SKILL.md`       | Go hexagonal gRPC template                                                                       |
+| `skill-templates/spring-boot/SKILL.md`             | Spring Boot template                                                                             |
+| `skill-templates/archive-tasks/SKILL.md`           | Task archiving skill                                                                             |
+| `skill-templates/migrate-kanban/SKILL.md`          | Kanban migration skill                                                                           |
+| `user-prompts/session-compactor.md`                | Session compactor prompt                                                                         |
+| `user-prompts/voice-to-text-enhancer.md`           | Voice-to-text prompt                                                                             |
+| `user-prompts/persian-to-english-dictation.md`     | Persian dictation prompt                                                                         |
+| `user-prompts/agile-pm-state-manager.md`           | Agile PM prompt                                                                                  |
 
 ## Individual Task Summaries
 
