@@ -1,5 +1,5 @@
 ---
-name: frontend-architecture-react-vite
+name: react-vite
 description: React 18+ SPA architecture, hooks, and Vite configuration
 ---
 

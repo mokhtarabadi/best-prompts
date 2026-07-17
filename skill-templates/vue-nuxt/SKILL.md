@@ -1,5 +1,5 @@
 ---
-name: frontend-architecture-vue-nuxt
+name: vue-nuxt
 description: Vue 3 Composition API, Nuxt 3 routing, and state management
 ---
 

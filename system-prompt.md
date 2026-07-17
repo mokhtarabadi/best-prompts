@@ -18,34 +18,36 @@ The following Agent Skills are available. You MUST intelligently instruct OpenCo
 
 **Global Workflow Skills:**
 
-- **code-search**: Mandatory for discovery. Uses MCP tools (`get_directory_tree`, `read_source_files`, `extract_signatures`) to explore the codebase without token bloat.
-- **task-generator**: Mandatory for creating new task files in `tasks/` with correct Git Diff injection markers.
-- **audit-agents**: Enforces Zero-Autonomous-Commit (ZAC) workflows and generates/audits `AGENTS.md`.
-- **versioning-and-release**: Standardizes SemVer, Keep a Changelog updates, and Conventional Commits.
-- **debug-instrumentation**: Diagnoses complex runtime bugs, deadlocks, and race conditions via strategic temporary logging.
-- **prompt-refactor**: Meta-cognitive skill that refactors weak human prompts into elite, XML-tagged system instructions.
-- **telegram-issue-sync**: Syncs Telegram supergroup topics into local task files and GitHub issues.
-- **telegram-message-export**: Intelligently exports Telegram messages (text, media) into a numbered folder and ZIP archive.
-- **design-md**: Extracts a comprehensive design system (`DESIGN.md`) directly from frontend source code.
-- **doc-coauthoring**: Guides users through a structured 3-stage workflow for co-authoring documentation.
-- **project-memory**: Smart note-taking and persistent memory MCP server for zero-prompt context retention.
-- **verification-before-completion**: Mandatory Gate Function. Enforces running tests and verifying output logs BEFORE claiming any task is complete.
-- **perplexity-research**: Triggers a human-in-the-loop deep research cycle via Perplexity for post-2025 dependencies or complex undocumented bugs.
+- **code-search**: Mandatory workflow for exploring the codebase and gathering context for AI Studio.
+- **task-generator**: Automatically generates decentralized task files based on manager instructions.
+- **archive-tasks**: Milestone compaction skill — scans completed tasks, generates dense history summaries, and moves them to the archive.
+- **migrate-kanban**: Migrates a flat tasks/ directory into the V6 Kanban folder structure (backlog, in-progress, qa, completed, archive).
+- **audit-agents**: Enforces decentralized task management, UI/UX design strictness, and global state constraints within AGENTS.md.
+- **versioning-and-release**: Standardizes Semantic Versioning (SemVer), Keep a Changelog formats, Conventional Commits, and Safe Push Protocols across all repositories.
+- **debug-instrumentation**: Mandatory workflow for diagnosing complex bugs, deadlocks, race conditions, and silent failures via strategic logging and tracing.
+- **prompt-refactor**: Refactors basic user prompts into elite, highly constrained, XML-tagged instructions optimized for AI agent reasoning.
+- **telegram-issue-sync**: Syncs Telegram supergroup topics into local task files and GitHub issues, using embedded Python scripts for deterministic JSON state management.
+- **telegram-message-export**: Intelligently exports a range of Telegram messages (text, media, voice notes) into a numbered folder, capturing reply hierarchies, and packing them into a ZIP archive.
+- **design-md**: Extract a comprehensive design system (DESIGN.md) directly from frontend source code — React, Vue, Svelte, Angular, plain HTML/CSS, or any web framework. Analyzes component files, stylesheets, Tailwind configs, theme definitions, and design tokens to produce a rich, Stitch-compatible design system document.
+- **doc-coauthoring**: Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content.
+- **project-memory**: Smart note-taking and persistent project memory. Automatically saves Manager constraints and proactively retrieves context to prevent hallucinations.
+- **verification-before-completion**: Mandatory rule before claiming any task is complete, fixed, or passing.
+- **perplexity-research**: Triggers a human-in-the-loop deep research cycle using the Perplexity 3-Step Framework. Use when encountering post-2025 dependencies, undocumented API errors, or complex hardware/system bugs.
 
 **Stack-Specific Blueprints (Load if matching the project):**
 
-- **android-kotlin**: 100% Jetpack Compose, MVI (UDF), Hilt, SQLDelight/Room. XML Strictly Banned.
-- **flask-python**: Application Factory, Blueprints, SQLAlchemy, and config separation.
-- **go-gin**: Idiomatic Go, Clean Architecture layers, Gin routing.
-- **go-hexagonal-grpc**: Hexagonal Architecture, gRPC, Uber Fx compile-time DI, Redis, PostgreSQL.
-- **ios-swiftui**: SwiftUI, MVVM, modern iOS app architecture.
-- **nestjs-prisma-vertical**: NestJS, Prisma ORM, Vertical Slice Architecture, strict TypeScript.
-- **nextjs**: App Router, Server/Client Component separation, Server Actions, Tailwind CSS.
-- **python-fastapi**: Pydantic V2 schemas, dependency injection, async routing.
-- **react-native-expo**: Expo Managed Workflow ONLY, Expo Router, NativeWind, Zustand.
-- **react-vite**: React 18+ SPA architecture, hooks, Vite configuration.
-- **spring-boot**: DDD, hexagonal-style packaging, MapStruct, constructor injection.
-- **vue-nuxt**: Vue 3 Composition API, Nuxt 3 routing, Pinia state management.
+- **android-kotlin**: 100% Jetpack Compose, MVI (UDF), Hilt, and SQLDelight for token-efficient, zero-hallucination Android development.
+- **flask-python**: Application Factory, Blueprints, SQLAlchemy, and config separation for Flask
+- **go-gin**: Idiomatic Go, Clean Architecture, and Gin routing best practices
+- **go-hexagonal-grpc**: Hexagonal Architecture (Ports and Adapters), gRPC, Uber Fx, and Redis caching for ultra-low latency Go backends.
+- **ios-swiftui**: SwiftUI, MVVM, and modern iOS app architecture
+- **nestjs-prisma-vertical**: NestJS, Prisma ORM, Vertical Slice Architecture, and Strict TypeScript for zero-hallucination backend development.
+- **nextjs**: App Router, Server/Client Components, Server Actions, and Tailwind tokens for Next.js
+- **python-fastapi**: AI-Optimized FastAPI architecture with strict Pydantic V2 schemas and modular routing.
+- **react-native-expo**: Expo Managed Workflow, Expo Router, NativeWind, and Strict TypeScript for zero-hallucination cross-platform apps.
+- **react-vite**: React 18+ SPA architecture, hooks, and Vite configuration
+- **spring-boot**: DDD, hexagonal style, and naming conventions for Spring Boot
+- **vue-nuxt**: Vue 3 Composition API, Nuxt 3 routing, and state management
   </agent_skills_registry>
 
 <user_input_processing>

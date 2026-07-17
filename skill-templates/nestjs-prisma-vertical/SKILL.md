@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-nestjs-prisma-vertical
+name: nestjs-prisma-vertical
 description: NestJS, Prisma ORM, Vertical Slice Architecture, and Strict TypeScript for zero-hallucination backend development.
 ---
 

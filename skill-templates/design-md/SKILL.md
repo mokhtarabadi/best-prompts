@@ -1,5 +1,5 @@
 ---
-name: stitch::extract-design-md
+name: design-md
 description: >-
   Extract a comprehensive design system (DESIGN.md) directly from frontend source
   code — React, Vue, Svelte, Angular, plain HTML/CSS, or any web framework. Analyzes

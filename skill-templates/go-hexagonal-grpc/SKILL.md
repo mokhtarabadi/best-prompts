@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-go-hexagonal-grpc
+name: go-hexagonal-grpc
 description: Hexagonal Architecture (Ports and Adapters), gRPC, Uber Fx, and Redis caching for ultra-low latency Go backends.
 ---
 

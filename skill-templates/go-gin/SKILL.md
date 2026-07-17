@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-go-gin
+name: go-gin
 description: Idiomatic Go, Clean Architecture, and Gin routing best practices
 ---
 

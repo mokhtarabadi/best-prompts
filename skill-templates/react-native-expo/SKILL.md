@@ -1,5 +1,5 @@
 ---
-name: mobile-architecture-react-native-expo
+name: react-native-expo
 description: Expo Managed Workflow, Expo Router, NativeWind, and Strict TypeScript for zero-hallucination cross-platform apps.
 ---
 

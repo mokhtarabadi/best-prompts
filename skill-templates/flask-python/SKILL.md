@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-flask-python
+name: flask-python
 description: Application Factory, Blueprints, SQLAlchemy, and config separation for Flask
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-spring-boot
+name: spring-boot
 description: DDD, hexagonal style, and naming conventions for Spring Boot
 ---
 

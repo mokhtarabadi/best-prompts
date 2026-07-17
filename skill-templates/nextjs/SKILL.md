@@ -1,5 +1,5 @@
 ---
-name: frontend-architecture-nextjs
+name: nextjs
 description: App Router, Server/Client Components, Server Actions, and Tailwind tokens for Next.js
 ---
 

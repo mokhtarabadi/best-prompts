@@ -1,5 +1,5 @@
 ---
-name: backend-architecture-fastapi
+name: python-fastapi
 description: AI-Optimized FastAPI architecture with strict Pydantic V2 schemas and modular routing.
 ---
 

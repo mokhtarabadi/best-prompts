@@ -1,5 +1,5 @@
 ---
-name: mobile-architecture-ios-swiftui
+name: ios-swiftui
 description: SwiftUI, MVVM, and modern iOS app architecture
 ---
 
