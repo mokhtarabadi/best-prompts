@@ -82,6 +82,16 @@ To leave feedback directly on the generated Markdown plans:
 
 The AI will process your inline feedback, generate a revised plan, and wait for your final "Approved" signal before writing code.
 
+### Manager Profile & AI Coaching
+
+The `system-prompt.md` includes a `<manager_profile>` and `<leadership_and_language_protocol>`. By default, this is configured for the original author, acting as an **Executive Coach and English Tutor**.
+
+- **Language & Vocabulary Corrections:** If the AI notices grammatical errors or forgotten industry keywords in your prompts, it will append a small `> 💡 **Coach's Note:**` at the end of its response to teach you the correct term or pronunciation.
+- **Ruthless Soft-Skills Feedback:** When you close a sprint or ask for feedback (e.g., _"Give me your ruthless feedback about me so I can improve"_), the AI personas will critique your tone and management style, telling you how a real human would have reacted to your instructions.
+
+**Customizing for Yourself:**
+Open `system-prompt.md` and edit the `<manager_profile>` block. Put in your own name, technical background, career goals, and the specific soft skills or languages you want the AI to help you improve.
+
 ---
 
 ## Repository Structure
@@ -301,6 +311,11 @@ To make the `code-search` skill (or any other reusable skill) available in _ever
 - **`migrate-kanban` skill** — automated migration of existing flat `tasks/` files into the Kanban structure by reading status metadata.
 - **`archive-tasks` skill** — milestone compaction: scans `tasks/completed/`, generates dense `docs/history/milestone-X-summary.md`, and moves files to `tasks/archive/`.
 - **System prompt upgraded to V6.0.0** — all personas and workflows updated for the Kanban lifecycle. Project Planner manages state-based Kanban directories. Code Reviewer now generates tasks that move files through the pipeline. Execution workflow includes `backlog → in-progress → qa → completed` transitions.
+
+## Key V6.7 Changes
+
+- **Manager Profile & Coaching Protocol** — Added a dedicated `<manager_profile>` to the system prompt, giving the AI deep context about the Manager's technical background, work style, and career trajectory.
+- **Leadership & Language Feedback** — Introduced the `<leadership_and_language_protocol>`. The AI now acts as an Executive Coach, teaching forgotten industry keywords, correcting English grammar/pronunciation (using Persian phonetic text), and providing ruthless soft-skills feedback during sprint retrospectives to prepare the Manager for leading real human teams.
 
 ---
 

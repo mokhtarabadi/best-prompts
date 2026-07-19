@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.7.0] — 2026-07-19
+
+### Added
+
+- **Manager Profile (`<manager_profile>`)** — Added a dedicated block in `system-prompt.md` defining the Manager's background (Mohammad, self-taught, Linux/Android expert, transitioning from solo dev to Product Owner). This allows the AI to tailor its technical assumptions and communication style perfectly to the user's history.
+- **Leadership & Language Coaching (`<leadership_and_language_protocol>`)** — Transformed the Orchestrator into an Executive Coach and English Tutor.
+  - **Vocabulary Assistance:** Personas will explicitly teach industry keywords if the Manager forgets them.
+  - **English Corrections:** Appends a non-disruptive `> 💡 **Coach's Note:**` correcting grammar and teaching pronunciation using Persian phonetic characters (e.g., /مَنِیجِر/).
+  - **Sprint Retrospectives:** When a sprint is closed or feedback is requested, personas break character to ruthlessly critique the Manager's tone, phrasing, and empathy from the perspective of a simulated human team member.
+- **Setup Integration** — Added instructions in `README.md` and `LLM.txt` so new users know to customize this profile for themselves.
+
 ## [6.6.0] — 2026-07-17
 
 ### Added

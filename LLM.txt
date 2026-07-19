@@ -17,7 +17,7 @@ Check that the following tools are installed on the host system:
 - **Python 3.10+** — required by the MCP context server
 - **uv** — fast Python package manager (install via `curl -LsSf https://astral.sh/uv/install.sh | sh`)
 
-If any are missing, install them using the platform-specific commands in Section 4.
+If any are missing, install them using the platform-specific commands in Section 6.
 
 ---
 
@@ -77,7 +77,14 @@ After installation, OpenCode will list these skills under its `/help` menu.
 
 ---
 
-## 4. Start the MCP Server
+## 4. Customize the Manager Profile
+
+The `system-prompt.md` contains a `<manager_profile>` block customized for the original author (Mohammad). 
+**Instruction for AI:** If you are setting this up for a new user, advise them to edit the `<manager_profile>` block in `system-prompt.md` to reflect their own name, background, technical skills, and leadership goals, so the AI can tailor its communication and coaching to them.
+
+---
+
+## 5. Start the MCP Server
 
 The custom context MCP server must be running for OpenCode to use its tools.
 
@@ -89,7 +96,7 @@ Run this in the project root directory. The server will start on a local port an
 
 ---
 
-## 5. Platform-Specific Setup
+## 6. Platform-Specific Setup
 
 ### macOS / Linux
 
@@ -135,7 +142,7 @@ uv run mcp-context-server/server.py
 
 ---
 
-## 6. Verification Checklist
+## 7. Verification Checklist
 
 After completing the steps above, verify the setup:
 
