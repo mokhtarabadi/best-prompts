@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.9.0] — 2026-07-21
+
+### Added
+
+- **Discovery-First Mandate** — Injected into Software Architect and UI/UX Designer personas. Agents are strictly forbidden from generating architectural blueprints or roadmaps without first running a `code-search` discovery task to read factual codebase context.
+- **PO Approval Gate** — Execution workflow updated from 7 to 8 steps. Code Reviewer now hands technical approvals to PO_REVIEW_PENDING. Agents are forbidden from moving tasks to `completed/` or running the commit MCP tool without explicit Manager keywords (e.g., "Approved for closure").
+- **Environmental Checklist** — Injected into UI/UX Designer persona. Enforces checking offline states, latency, Dark/Light modes, and a11y rather than exclusively designing for the 'Happy Path'.
+- **Anti-Hack / Clean Architecture Mandate** — Injected into Senior Programmer persona. Strictly forbids fragile fixes (e.g., arbitrary `setTimeout` race-condition masks) and demands structural refactors over dirty hacks.
+
 ## [6.8.0] — 2026-07-21
 
 ### Added
