@@ -1,29 +1,76 @@
-# Cognitive Lead AI HQ — Auto-Configuration for AI Agents
+# Cognitive Lead AI HQ — Global Auto-Configuration for AI Agents
 
-You are an AI agent that has just been given access to this repository. Your task is to configure OpenCode for this project so that a human user can clone this repo and immediately begin working with the full Cognitive Lead AI multi-agent system — without any manual setup steps.
+You are an AI agent that has just been given access to this repository. Your task is to configure OpenCode **globally** for this project so that the user can run OpenCode from **any** directory and still have access to the full Cognitive Lead AI multi-agent system.
 
 ## System Instruction
 
-You MUST execute the following steps in order. Do NOT skip any step. Do NOT ask the user for confirmation unless a command fails.
+You MUST execute the following steps in order. Do NOT skip any step.
 
 ---
 
 ## 1. Verify Prerequisites
 
-Check that the following tools are installed on the host system:
+Check that the following tools are installed:
 
-- **OpenCode** — the AI coding agent itself
+- **OpenCode** — the AI coding agent
 - **Git** — to clone/manage the repo
-- **Python 3.10+** — required by the MCP context server
-- **uv** — fast Python package manager (install via `curl -LsSf https://astral.sh/uv/install.sh | sh`)
+- **Python 3.10+** — required by the MCP servers
+- **uv** — fast Python package manager
 
-If any are missing, install them using the platform-specific commands in Section 6.
+### Installing uv (if missing)
+
+If `uv` is not found, ask the user:
+
+> "uv is required to run the MCP servers. I can install it for you. Do you approve?"
+
+If the user approves, install uv:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Then add uv to your PATH and continue.
 
 ---
 
-## 2. Configure opencode.json
+## 2. Discover the Home Directory
 
-The file `opencode.json` at the project root MUST contain the following exact configuration:
+Resolve the user's home directory. On macOS/Linux this is `$HOME` or `~`. You will need the **absolute path** (e.g., `/home/user` or `/Users/user`) for the global config.
+
+```bash
+echo "$HOME"
+```
+
+Store this value — you will use it to construct absolute paths in the global config JSON.
+
+---
+
+## 3. Create Global Directories and Copy MCP Servers
+
+Create the global OpenCode directories and copy both MCP server scripts:
+
+```bash
+# Create global directories
+mkdir -p ~/.config/opencode/mcp-context-server
+mkdir -p ~/.config/opencode/mcp-memory-server
+mkdir -p ~/.config/opencode/skills
+
+# Copy the MCP server scripts
+cp mcp-context-server/server.py ~/.config/opencode/mcp-context-server/
+cp mcp-memory-server/server.py ~/.config/opencode/mcp-memory-server/
+
+# Make them executable
+chmod +x ~/.config/opencode/mcp-context-server/server.py
+chmod +x ~/.config/opencode/mcp-memory-server/server.py
+```
+
+---
+
+## 4. Configure Global opencode.json (with Absolute Paths)
+
+Create or update `~/.config/opencode/opencode.json`. You MUST use **absolute paths** in the `command` array — resolve the `~` to the full home directory path discovered in Step 2.
+
+Write the following JSON (replace `/home/user` with the actual home directory):
 
 ```json
 {
@@ -31,125 +78,68 @@ The file `opencode.json` at the project root MUST contain the following exact co
   "mcp": {
     "custom_context": {
       "type": "local",
-      "command": ["uv", "run", "mcp-context-server/server.py"],
+      "command": ["uv", "run", "/home/user/.config/opencode/mcp-context-server/server.py"],
+      "enabled": true
+    },
+    "project_memory": {
+      "type": "local",
+      "command": ["uv", "run", "/home/user/.config/opencode/mcp-memory-server/server.py"],
       "enabled": true
     }
   },
   "permission": {
     "custom_context_*": "allow",
+    "project_memory_*": "allow",
+    "store_memory": "allow",
+    "delete_memory": "allow",
+    "read_memory": "allow",
+    "search_memory": "allow",
+    "list_namespaces": "allow",
     "get_directory_tree": "allow",
     "read_source_files": "allow"
   }
 }
 ```
 
-This configures:
-- A local MCP server (`custom_context`) providing `.gitignore`-aware directory tree and file reading tools.
-- Permission rules that auto-allow these tools without prompting.
-
-If the file already exists, verify it matches this schema. Add any missing keys. Do NOT remove existing keys.
+**Important:** Replace `/home/user` with the actual absolute path to the user's home directory (e.g., `/home/alice` or `/Users/alice`). This is critical — MCP servers will NOT work with relative paths or `~` in the global config because OpenCode may be invoked from any working directory.
 
 ---
 
-## 3. Install Agent Skills
+## 5. Install Agent Skills Globally
 
-This repository ships reusable Agent Skills in `skill-templates/`. To make them available to OpenCode, copy them to the correct location.
-
-### Option A: Project-Local Installation (Recommended for this repo)
-
-Copy skills into `.opencode/skills/`:
+Copy all reusable skills from `skill-templates/` into the global OpenCode skills directory:
 
 ```bash
-mkdir -p .opencode/skills
-cp -r skill-templates/* .opencode/skills/
-```
-
-### Option B: Global Installation (Available in every directory)
-
-Copy skills into the global OpenCode skills directory:
-
-```bash
-mkdir -p ~/.config/opencode/skills
 cp -r skill-templates/* ~/.config/opencode/skills/
 ```
 
-After installation, OpenCode will list these skills under its `/help` menu.
+After this, the skills will be available via `/help` from any directory.
 
 ---
 
-## 4. Customize the Manager Profile
+## 6. Customize the Manager Profile
 
-The `system-prompt.md` contains a `<manager_profile>` block customized for the original author (Mohammad). 
-**Instruction for AI:** If you are setting this up for a new user, advise them to edit the `<manager_profile>` block in `system-prompt.md` to reflect their own name, background, technical skills, and leadership goals, so the AI can tailor its communication and coaching to them.
+The `system-prompt.md` contains a `<manager_profile>` block customized for the original author (Mohammad).
 
----
-
-## 5. Start the MCP Server
-
-The custom context MCP server must be running for OpenCode to use its tools.
-
-```bash
-uv run mcp-context-server/server.py
-```
-
-Run this in the project root directory. The server will start on a local port and wait for requests.
-
----
-
-## 6. Platform-Specific Setup
-
-### macOS / Linux
-
-```bash
-# Install uv if missing
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Clone the repository (if not already cloned)
-git clone https://github.com/mokhtarabadi/cognitive-lead-hq.git
-cd cognitive-lead-hq
-
-# Install project-level skills
-mkdir -p .opencode/skills
-cp -r skill-templates/* .opencode/skills/
-
-# Verify opencode.json exists and is valid
-cat opencode.json
-
-# Start the MCP server (background or separate terminal)
-uv run mcp-context-server/server.py
-```
-
-### Windows (PowerShell)
-
-```powershell
-# Install uv if missing
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Clone the repository
-git clone https://github.com/mokhtarabadi/cognitive-lead-hq.git
-cd cognitive-lead-hq
-
-# Install project-level skills
-mkdir .opencode\skills -Force
-Copy-Item -Path skill-templates\* -Destination .opencode\skills\ -Recurse
-
-# Verify opencode.json exists
-Get-Content opencode.json
-
-# Start the MCP server
-uv run mcp-context-server/server.py
-```
+**Instruction for AI:** If you are setting this up for a new user, advise them to edit the `<manager_profile>` block in `system-prompt.md` to reflect their own name, background, technical skills, and leadership goals.
 
 ---
 
 ## 7. Verification Checklist
 
-After completing the steps above, verify the setup:
+After completing all steps, verify:
 
-- [ ] `opencode.json` exists at project root with valid JSON
-- [ ] Skills are installed under `.opencode/skills/` or `~/.config/opencode/skills/`
-- [ ] MCP server starts without errors via `uv run mcp-context-server/server.py`
-- [ ] OpenCode can list the installed skills via `/help`
+- [ ] `uv` is installed and available (`uv --version`)
+- [ ] `~/.config/opencode/mcp-context-server/server.py` exists
+- [ ] `~/.config/opencode/mcp-memory-server/server.py` exists
+- [ ] `~/.config/opencode/opencode.json` exists with **absolute paths** (not `~` or relative paths)
+- [ ] Skills are installed under `~/.config/opencode/skills/`
+- [ ] Both MCP server scripts are executable
+- [ ] Start each MCP server to verify it launches without errors:
+  ```bash
+  uv run ~/.config/opencode/mcp-context-server/server.py &
+  uv run ~/.config/opencode/mcp-memory-server/server.py &
+  ```
 
 ---
 
@@ -158,5 +148,5 @@ After completing the steps above, verify the setup:
 Copy and give this exact line to your AI agent to trigger auto-configuration:
 
 ```
-Hi, please read this address and, based on the instructions in this file, set up OpenCode for the user for our project.
+Please read the LLM.txt file in this project and follow its instructions to auto-configure everything for me.
 ```

@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.10.0] — 2026-07-21
+
+### Added
+
+- **Global Auto-Setup (`LLM.txt`)** — Rewrote `LLM.txt` to install OpenCode configuration globally (`~/.config/opencode/`) instead of project-locally. Now handles: uv prerequisite check with user-confirmed installation, copy of both MCP server scripts (context + memory) to global directories, and global `opencode.json` with **absolute paths** for reliable MCP server execution from any working directory.
+- **Global Skills Deployment** — `LLM.txt` Step 5 now copies `skill-templates/*` to `~/.config/opencode/skills/` for system-wide skill availability.
+
+### Fixed
+
+- **README Quick Install** — Fixed the one-click setup prompt to explicitly reference `LLM.txt` so users know exactly what to tell their AI agent.
+
 ## [6.9.1] — 2026-07-21
 
 ### Added
