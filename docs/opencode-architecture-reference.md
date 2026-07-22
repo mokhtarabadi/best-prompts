@@ -28,11 +28,11 @@ OpenCode uses a permission rule system to control tool access and file system op
 
 ```json
 {
-  "permissions": {
-    "glob": true,
-    "read": true,
+  "permission": {
+    "glob": "allow",
+    "read": "allow",
     "write": ["**/*.md", "src/**"],
-    "bash": false,
+    "bash": "deny",
     "edit": ["src/**", "!src/generated/**"]
   }
 }
