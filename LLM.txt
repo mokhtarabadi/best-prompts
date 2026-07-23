@@ -12,10 +12,8 @@ You MUST execute the following steps in order. Do NOT skip any step.
 
 Check that the following tools are installed:
 
-- **OpenCode** — the AI coding agent
-- **Git** — to clone/manage the repo
-- **Python 3.10+** — required by the MCP servers
-- **uv** — fast Python package manager
+- **Git** — to clone the repository
+- **uv** — fast Python package manager (required by the MCP servers)
 
 ### Installing uv (if missing)
 
@@ -33,7 +31,20 @@ Then add uv to your PATH and continue.
 
 ---
 
-## 2. Discover the Home Directory
+## 2. Clone the Repository to a Temporary Location
+
+Clone the Cognitive Lead AI HQ to `/tmp/` so the global installation can proceed without depending on the current working directory:
+
+```bash
+git clone https://github.com/mokhtarabadi/cognitive-lead-hq.git /tmp/cognitive-lead-hq
+cd /tmp/cognitive-lead-hq
+```
+
+All subsequent file operations will reference paths under `/tmp/cognitive-lead-hq/`.
+
+---
+
+## 3. Discover the Home Directory
 
 Resolve the user's home directory. On macOS/Linux this is `$HOME` or `~`. You will need the **absolute path** (e.g., `/home/user` or `/Users/user`) for the global config.
 
@@ -45,32 +56,48 @@ Store this value — you will use it to construct absolute paths in the global c
 
 ---
 
-## 3. Create Global Directories and Copy MCP Servers
+## 4. Create Global Directories
 
-Create the global OpenCode directories and copy both MCP server scripts:
+Create the global OpenCode directories:
 
 ```bash
-# Create global directories
 mkdir -p ~/.config/opencode/mcp-context-server
 mkdir -p ~/.config/opencode/mcp-memory-server
 mkdir -p ~/.config/opencode/skills
+```
 
-# Copy the MCP server scripts
-cp mcp-context-server/server.py ~/.config/opencode/mcp-context-server/
-cp mcp-memory-server/server.py ~/.config/opencode/mcp-memory-server/
+---
 
-# Make them executable
+## 5. Copy MCP Servers and Make Them Executable
+
+Copy both MCP server scripts from the cloned repo:
+
+```bash
+cp /tmp/cognitive-lead-hq/mcp-context-server/server.py ~/.config/opencode/mcp-context-server/
+cp /tmp/cognitive-lead-hq/mcp-memory-server/server.py ~/.config/opencode/mcp-memory-server/
 chmod +x ~/.config/opencode/mcp-context-server/server.py
 chmod +x ~/.config/opencode/mcp-memory-server/server.py
 ```
 
 ---
 
-## 4. Configure Global opencode.json (with Absolute Paths)
+## 6. Install Agent Skills Globally
 
-Create or update `~/.config/opencode/opencode.json`. You MUST use **absolute paths** in the `command` array — resolve the `~` to the full home directory path discovered in Step 2.
+Copy all reusable skills from `skill-templates/` into the global OpenCode skills directory:
 
-Write the following JSON (replace `/home/user` with the actual home directory):
+```bash
+cp -r /tmp/cognitive-lead-hq/skill-templates/* ~/.config/opencode/skills/
+```
+
+After this, the skills will be available via `/help` from any directory.
+
+---
+
+## 7. Configure Global opencode.json (with Absolute Paths)
+
+Create or update `~/.config/opencode/opencode.json`. You MUST use **absolute paths** in the `command` array — resolve the `~` to the full home directory path discovered in Step 3.
+
+Write the following JSON (replace `$HOME` with the actual home directory path):
 
 ```json
 {
@@ -78,12 +105,12 @@ Write the following JSON (replace `/home/user` with the actual home directory):
   "mcp": {
     "custom_context": {
       "type": "local",
-      "command": ["uv", "run", "/home/user/.config/opencode/mcp-context-server/server.py"],
+      "command": ["uv", "run", "$HOME/.config/opencode/mcp-context-server/server.py"],
       "enabled": true
     },
     "project_memory": {
       "type": "local",
-      "command": ["uv", "run", "/home/user/.config/opencode/mcp-memory-server/server.py"],
+      "command": ["uv", "run", "$HOME/.config/opencode/mcp-memory-server/server.py"],
       "enabled": true
     }
   },
@@ -101,23 +128,21 @@ Write the following JSON (replace `/home/user` with the actual home directory):
 }
 ```
 
-**Important:** Replace `/home/user` with the actual absolute path to the user's home directory (e.g., `/home/alice` or `/Users/alice`). This is critical — MCP servers will NOT work with relative paths or `~` in the global config because OpenCode may be invoked from any working directory.
+**Important:** Replace `$HOME` with the actual absolute path resolved in Step 3 (e.g., `/home/alice` or `/Users/alice`). This is critical — MCP servers will NOT work with relative paths or `~` in the global config because OpenCode may be invoked from any working directory.
 
 ---
 
-## 5. Install Agent Skills Globally
+## 8. Clean Up Temporary Clone
 
-Copy all reusable skills from `skill-templates/` into the global OpenCode skills directory:
+Remove the cloned repository from `/tmp/`:
 
 ```bash
-cp -r skill-templates/* ~/.config/opencode/skills/
+rm -rf /tmp/cognitive-lead-hq
 ```
-
-After this, the skills will be available via `/help` from any directory.
 
 ---
 
-## 6. Customize the Manager Profile
+## 9. Customize the Manager Profile
 
 The `system-prompt.md` contains a `<manager_profile>` block customized for the original author (Mohammad).
 
@@ -125,16 +150,17 @@ The `system-prompt.md` contains a `<manager_profile>` block customized for the o
 
 ---
 
-## 7. Verification Checklist
+## 10. Verification Checklist
 
 After completing all steps, verify:
 
+- [ ] `git` is installed (`git --version`)
 - [ ] `uv` is installed and available (`uv --version`)
-- [ ] `~/.config/opencode/mcp-context-server/server.py` exists
-- [ ] `~/.config/opencode/mcp-memory-server/server.py` exists
+- [ ] `~/.config/opencode/mcp-context-server/server.py` exists and is executable
+- [ ] `~/.config/opencode/mcp-memory-server/server.py` exists and is executable
+- [ ] Skills are installed under `~/.config/opencode/skills/` (at least one subfolder exists)
 - [ ] `~/.config/opencode/opencode.json` exists with **absolute paths** (not `~` or relative paths)
-- [ ] Skills are installed under `~/.config/opencode/skills/`
-- [ ] Both MCP server scripts are executable
+- [ ] `/tmp/cognitive-lead-hq` no longer exists
 - [ ] Start each MCP server to verify it launches without errors:
   ```bash
   uv run ~/.config/opencode/mcp-context-server/server.py &

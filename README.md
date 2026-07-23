@@ -7,28 +7,19 @@
 
 The centralized **Headquarters** for the Cognitive Lead AI multi-agent system — a collection of hallucination-resistant system prompts, MCP servers, and strict Agent Skills (SKILL.md) built for [OpenCode](https://opencode.ai).
 
-> **Want a quick install?** Copy this line and give it to any AI agent (OpenCode, Cline, etc.):
+> **Quick Install:** Copy this line and give it to OpenCode:
 >
 > ```
-> Please read https://raw.githubusercontent.com/mokhtarabadi/cognitive-lead-hq/main/LLM.txt and follow its instructions to auto-configure everything for me.
+> Use webfetch on https://raw.githubusercontent.com/mokhtarabadi/cognitive-lead-hq/main/LLM.txt and follow its instructions to auto-configure everything for me.
 > ```
 
 ---
 
 ## Quick Start
 
-Give the prompt above to any AI agent (OpenCode, Cline, etc.) and it will auto-configure itself using [`LLM.txt`](LLM.txt) — the canonical auto-setup source.
+Give the prompt above to OpenCode and it will auto-configure itself globally using [`LLM.txt`](LLM.txt) — the canonical auto-setup source. No manual steps required.
 
-To set up manually:
-
-```bash
-git clone https://github.com/mokhtarabadi/cognitive-lead-hq.git
-cd cognitive-lead-hq
-cp -r skill-templates/* .opencode/skills/
-uv run mcp-context-server/server.py
-```
-
-Then open OpenCode in this directory. Read `system-prompt.md` to understand the multi-agent architecture, or dive into `tasks/` for active work items. For full platform-specific instructions (Windows, macOS, Linux), see [`LLM.txt`](LLM.txt).
+For full platform-specific instructions (Windows, macOS, Linux), see [`LLM.txt`](LLM.txt).
 
 ---
 

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **LLM.txt** — Refactored into a standalone, self-contained global auto-installation script. Now clones the repository to `/tmp/cognitive-lead-hq`, copies MCP servers and skills globally to `~/.config/opencode/`, configures `opencode.json` with absolute paths, and cleans up the temporary clone. Added `git` prerequisite check alongside `uv`. All operations are independent of the user's current working directory.
+- **README.md** — Simplified Quick Start to a single copy-paste prompt instructing OpenCode to `webfetch` the raw `LLM.txt` from GitHub and auto-configure. Removed manual setup instructions.
+
 ## [6.10.0] — 2026-07-21
 
 ### Added
