@@ -10,7 +10,8 @@ description: Enforces decentralized task management, UI/UX design strictness, an
 The `AGENTS.md` file MUST explicitly contain the following operational constraints, ideally within a `Task Management & OpenCode Rules` section:
 
 - **Mandatory First-Read Rule**: MUST explicitly command the agent to read `AGENTS.md` first before any execution. Inside it, it must route the agent to read `DESIGN.md`, `docs/architecture.md`, `docs/data_model.md`, and `docs/conventions.md` first.
-- **Core File Locations**: MUST explicitly list paths for `AGENTS.md`, `DESIGN.md`, `.opencode/skills/`, and the 5 Kanban directories (`tasks/backlog`, `tasks/in-progress`, `tasks/qa`, `tasks/completed`, `tasks/archive`).
+- **Core File Locations**: MUST explicitly list paths for `AGENTS.md`, `DESIGN.md`, `.opencode/skills/`, `docs/conventions.md`, and the 5 Kanban directories (`tasks/backlog`, `tasks/in-progress`, `tasks/qa`, `tasks/completed`, `tasks/archive`).
+- **conventions.md Compliance**: The project MUST have a `docs/conventions.md` file containing the Universal DateTime Standard (UTC at rest, Epoch/ISO-8601 with Offset at API boundaries, Clock injection, Dual-Representation for future events, TZ=UTC Infrastructure) and SOLID Programming Guidelines (SRP, OCP, LSP, ISP, DIP, Pragmatic Guardrails).
 - **Decentralized Task Management**: Agents MUST strictly use decentralized, individual task files in the Kanban directories (`tasks/backlog`, `tasks/in-progress`, `tasks/qa`, `tasks/completed`, `tasks/archive`) as their single source of truth.
 - **No Monolithic State**: Agents are strictly forbidden from creating `TODO.md` or `STATE.md`.
 - **Zero-Autonomous-Commit**: Agents MUST be strictly forbidden from executing Git commands autonomously; they may only run Git commands when explicitly instructed by the Orchestrator.
@@ -168,6 +169,38 @@ text: "#111827"
 - Breakpoints
 ```
 
+### 3. `docs/conventions.md` Template
+
+Generate a `docs/conventions.md` file containing the Universal DateTime Standard and SOLID Programming Guidelines:
+
+```markdown
+# Conventions
+
+This document defines syntax rules, naming conventions, file boundaries, and automation patterns for this project.
+
+## Universal DateTime Standard
+
+All projects in this ecosystem MUST follow these datetime rules:
+
+1. **UTC at Rest** — All databases and caches store datetimes in UTC with `TIMESTAMP WITH TIME ZONE`. Banned: naive or local-time storage.
+2. **ISO-8601 with Offset / Epoch ms at API Boundaries** — APIs transmit datetimes as Unix Epoch milliseconds (int64) or ISO-8601 with offset (e.g., `2026-07-23T14:30:00+00:00`). Banned: timezone-naive strings.
+3. **Clock Injection** — All current-time access must go through an injectable `Clock` abstraction. Banned: direct `new Date()`, `datetime.now()`, `time.Now()` in business logic.
+4. **Dual-Representation for Future Events** — Calendar events expose both `event_start_local` (with timezone) and `event_start_epoch_ms` (absolute).
+5. **`TZ=UTC` Infrastructure** — All environments run with `TZ=UTC`. Timezone display is a client-layer responsibility only.
+
+## SOLID Programming Guidelines
+
+Enforce these SOLID principles and pragmatic guardrails in every implementation:
+
+1. **SRP** — One reason to change per module. Split merged concerns.
+2. **OCP** — Open for extension, closed for modification. Use composition over inheritance.
+3. **LSP** — Subtypes must be substitutable. Ban `NotImplementedError` overrides.
+4. **ISP** — Small role-specific interfaces. Ban monolithic god-interfaces.
+5. **DIP** — Depend on abstractions, not concretions. Core layer must not import adapters.
+
+**Pragmatic Guardrails:** No abstraction for <3 trivial operations. Only extract interfaces with 2+ implementations. Apply YAGNI strictly. Prefer simpler designs unless a measurable requirement forces complexity.
+```
+
 ---
 
 Use this skill in two modes:
@@ -177,7 +210,7 @@ Use this skill in two modes:
 
 ---
 
-## Mode 1: Phase 0 — Generate AGENTS.md
+## Mode 1: Phase 0 — Generate AGENTS.md & docs/conventions.md
 
 Use this when a project has no `AGENTS.md` yet (new project onboarding).
 
@@ -186,7 +219,8 @@ Use this when a project has no `AGENTS.md` yet (new project onboarding).
 1. Read the project's existing context (package configs, README, tech stack files) to determine the project name, description, and relevant tech stack skills.
 2. Generate `AGENTS.md` at the project root using the template below.
 3. Fill in the `[bracketed]` placeholders with the actual project details.
-4. Confirm the file was created.
+4. Generate `docs/conventions.md` using the conventions template above, if the project does not already have one.
+5. Confirm both files were created.
 
 ### AGENTS.md Template
 
@@ -226,7 +260,8 @@ When modifying this repository, you must keep these files synchronized:
 1. Active task file in `tasks/` (single source of truth for current work items)
 2. `CHANGELOG.md` (Keep a Changelog format)
 3. `DESIGN.md` (UI/UX design system, if modified)
-4. Relevant `SKILL.md` files (if structural patterns were altered)
+4. `docs/conventions.md` (syntax rules, datetime standard, SOLID guidelines)
+5. Relevant `SKILL.md` files (if structural patterns were altered)
 
 ## 🛑 GATEKEEPER VALIDATION (HALT PROTOCOL)
 
@@ -264,19 +299,23 @@ When finishing a task, you MUST execute these exact steps in order:
 
 ---
 
-## Mode 2: Audit & Patch Existing AGENTS.md
+## Mode 2: Audit & Patch Existing AGENTS.md and docs/conventions.md
 
 ### 🛑 STRICT EXECUTION RULES (Priority 1)
 
 1. **Primary Source of Truth**: You MUST read `AGENTS.md` at the project root using local file read tools.
-2. **Read-Only First**: Evaluate the contents of `AGENTS.md` against the Target Audit Criteria before attempting any file modifications.
+2. **Read-Only First**: Evaluate the contents of both `AGENTS.md` and `docs/conventions.md` against the Target Audit Criteria before attempting any file modifications.
 3. **Immutable Formatting**: If patching is required, maintain the exact Markdown list structure, headers, and spacing of the existing file.
 
 ### Target Audit Criteria
 
 The `AGENTS.md` file MUST explicitly contain the following operational constraints, ideally within a `Task Management & OpenCode Rules` section:
 
-- **Core File Locations**: MUST explicitly list paths for `AGENTS.md`, `DESIGN.md`, `.opencode/skills/`, and the 5 Kanban directories (`tasks/backlog`, `tasks/in-progress`, `tasks/qa`, `tasks/completed`, `tasks/archive`).
+- **Core File Locations**: MUST explicitly list paths for `AGENTS.md`, `DESIGN.md`, `.opencode/skills/`, `docs/conventions.md`, and the 5 Kanban directories (`tasks/backlog`, `tasks/in-progress`, `tasks/qa`, `tasks/completed`, `tasks/archive`).
+
+Additionally, the `docs/conventions.md` file MUST exist and contain:
+- **Universal DateTime Standard**: UTC at rest, Epoch/ISO-8601 with Offset at API boundaries, Clock injection, Dual-Representation for future events, `TZ=UTC` Infrastructure.
+- **SOLID Programming Guidelines**: SRP, OCP, LSP, ISP, DIP, and Pragmatic Guardrails (No abstraction for <3 trivial ops, 3-Implementation Rule, YAGNI, Occam's Razor).
 - **Decentralized Task Management**: Agents MUST strictly use decentralized, individual task files in the `tasks/` directory as their single source of truth.
 - **No Monolithic State**: Agents are strictly forbidden from creating `TODO.md` or `STATE.md`.
 - **Zero-Autonomous-Commit**: Agents MUST be strictly forbidden from executing Git commands autonomously; they may only run Git commands when explicitly instructed by the Orchestrator.
@@ -291,9 +330,9 @@ The `AGENTS.md` file MUST explicitly contain the following operational constrain
 
 ### Resolution Protocol
 
-1. **Evaluation**: Compare the active `AGENTS.md` text against the Target Audit Criteria.
-2. **Patching**: If any constraints are missing, ambiguous, or incorrect, use the `apply_patch` tool to inject the exact missing rules.
-3. **Halt on Success**: If the file already complies 100%, DO NOT execute any write operations.
+1. **Evaluation**: Compare the active `AGENTS.md` text against the Target Audit Criteria. Also check if `docs/conventions.md` exists and contains both the DateTime Standard and SOLID Guidelines.
+2. **Patching**: If any constraints are missing, ambiguous, or incorrect in `AGENTS.md`, use the `apply_patch` tool to inject the exact missing rules. If `docs/conventions.md` is missing or incomplete, generate or patch it using the conventions template from Mode 1.
+3. **Halt on Success**: If both files already comply 100%, DO NOT execute any write operations.
 
 ### Summary Phase
 
@@ -302,5 +341,7 @@ Upon completion, output a strict, formatted summary for the Manager:
 ### Agent Audit Summary
 
 **Audit Status:** [PASSED | FIXED]
-**Violations Found:** [List of missing/incorrect rules, or "None"]
-**Actions Taken:** [Description of the patch applied, or "File already compliant"]
+**AGENTS.md Violations:** [List of missing/incorrect rules, or "None"]
+**conventions.md Status:** [COMPLIANT | MISSING | INCOMPLETE]
+**conventions.md Actions:** [Description of the patch applied, or "Already compliant"]
+**Actions Taken:** [Description of the patches applied, or "Both files already compliant"]

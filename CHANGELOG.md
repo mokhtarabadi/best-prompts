@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **`audit-agents` skill** — Upgraded to enforce `docs/conventions.md` governance. Added conventions.md validation to Target Audit Criteria. Mode 1 now generates a complete `docs/conventions.md` template with Universal DateTime Standard and SOLID Programming Guidelines. Mode 2 audits both `AGENTS.md` and `conventions.md`, patching any missing or incomplete sections. Agent Audit Summary output expanded with `conventions.md` compliance status.
+
 ## [6.11.0] — 2026-07-23
 
 ### Added
